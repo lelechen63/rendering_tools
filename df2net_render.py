@@ -17,22 +17,22 @@ import pickle
 import shutil
 import argparse
 res = 512
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--b",
-                        type=int,
-                        default=0)
-    parser.add_argument("--root",
-                        type=str,
-                        default='/home/cxu-serve/p1/lchen63/voxceleb/oppo/')
+# def parse_args():
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument("--b",
+#                         type=int,
+#                         default=0)
+#     parser.add_argument("--root",
+#                         type=str,
+#                         default='/home/cxu-serve/p1/lchen63/voxceleb/oppo/')
 
-    parser.add_argument("--front_img_path",
-                        type=str,
-                        default='')
+#     parser.add_argument("--front_img_path",
+#                         type=str,
+#                         default='')
 
 
-    return parser.parse_args()
-config = parse_args()
+#     return parser.parse_args()
+# config = parse_args()
 
 
 def load_obj(obj_file):
@@ -96,8 +96,9 @@ def render_single_img():
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     
-       
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
+    print rgb_frame.shape
     cv2.imwrite( temp_path +  "/gg.png", rgb_frame)  
     print (temp_path +  "/gg.png")
+
 render_single_img()
