@@ -82,7 +82,7 @@ def render_single_img():
     overlay = True
     # load cropped input_img
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_crop.png"
-    # input_mask = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
+    mask_n = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
     input_img = cv2.imread(input_image_path)
     print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
@@ -97,9 +97,11 @@ def render_single_img():
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     mask = rgb_frame[:,:,0]
-    print (rgb_frame.min(), rgb_frame.max(),'===')
-    mask[mask!=0]=1
-    mask = mask.reshape(512,512,1)
+    mask_n = mask_n.sum(2)
+    print (mask_n.shape)
+    mask_n[mask_n!=0]=1
+    mask = mask_n
+    print (mask_n.shape)
     mask = np.repeat(mask, 3, axis = 2)
     print (mask.max(), mask.min())
     cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
