@@ -97,7 +97,7 @@ def render_single_img():
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    print rgb_frame.shape
+    print (rgb_frame.shape)
     cv2.imwrite( temp_path +  "/gg.png", rgb_frame)  
     print (temp_path +  "/gg.png")
 
