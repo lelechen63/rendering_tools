@@ -97,6 +97,7 @@ def render_single_img():
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     
+    print (input_mask.shape)
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     final_output = input_img * (1-input_mask) + input_mask * image_render
     # print (rgb_frame.shape)
