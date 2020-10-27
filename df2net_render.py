@@ -94,7 +94,7 @@ def render_single_img():
     temp_path = './results/df2net'
     
     # render with texture
-    face_mesh = sr.Mesh(vertices_org, triangles, colors, load_texture=False)
+    face_mesh = sr.Mesh(vertices_org, triangles)
 
     # render without texture
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
