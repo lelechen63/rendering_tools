@@ -91,9 +91,7 @@ def render_single_img():
     
     fig = plt.figure()
     temp_path = './results/df2net'
-    # if os.path.exists(temp_path):
-    #     shutil.rmtree(temp_path)
-    # os.mkdir(temp_path)
+    
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     
@@ -103,8 +101,6 @@ def render_single_img():
     mask = mask[mask!=0]=1
     print (mask.shape)
     final_output = input_img * (1-mask) + mask * rgb_frame
-    # print (rgb_frame.shape)
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
-    # print (temp_path +  "/gg.png")
 
 render_single_img()
