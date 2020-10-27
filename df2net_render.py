@@ -84,6 +84,7 @@ def render_single_img():
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_crop.png"
     # input_mask = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
     input_img = cv2.imread(input_image_path)
+    print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
     vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
     # set up the renderer
@@ -99,7 +100,7 @@ def render_single_img():
     mask[mask!=0]=1
     mask = mask.reshape(512,512,1)
     mask = np.repeat(mask, 3, axis = 2)
-
+    cv2.imwrite( temp_path +  "/mask.png", mask)  
     final_output = input_img * (1-mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
