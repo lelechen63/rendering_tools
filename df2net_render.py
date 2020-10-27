@@ -45,7 +45,7 @@ def load_obj(obj_file):
         for line in infile.read().splitlines():
             if len(line) > 2 and line[:2] == "v ":
                 ts = line.split()
-                x = float(ts[1])
+                x = res - float(ts[1])
                 y = float(ts[2])
                 z = float(ts[3])
                 r = float(ts[4])
@@ -98,7 +98,7 @@ def render_single_img():
     
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     print (rgb_frame.shape)
-    cv2.imwrite( temp_path +  "gg.png", rgb_frame)  
+    cv2.imwrite( temp_path +  "/gg.png", rgb_frame)  
     print (temp_path +  "/gg.png")
 
 render_single_img()
