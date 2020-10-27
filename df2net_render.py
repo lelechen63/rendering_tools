@@ -94,14 +94,9 @@ def render_single_img():
     
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
-    
-    # print (input_mask.shape)
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    # print(rgb_frame.shape)
     mask = rgb_frame[:,:,0]
-    print(mask)
     mask[mask!=0]=1
-    print (mask.shape)
     final_output = input_img * (1-mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
