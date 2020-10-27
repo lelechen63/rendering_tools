@@ -100,7 +100,7 @@ def render_single_img():
     # print(rgb_frame.shape)
     mask = rgb_frame[:,:,0]
     print(mask)
-    mask = mask[mask!=0]=1
+    mask[mask!=0]=1
     print (mask.shape)
     final_output = input_img * (1-mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
