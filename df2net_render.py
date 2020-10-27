@@ -45,8 +45,8 @@ def load_obj(obj_file):
         for line in infile.read().splitlines():
             if len(line) > 2 and line[:2] == "v ":
                 ts = line.split()
-                x = res - float(ts[1])
-                y = float(ts[2])
+                y = float(ts[1])
+                x = float(ts[2])
                 z = float(ts[3])
                 r = float(ts[4])
                 g = float(ts[5])
@@ -55,8 +55,8 @@ def load_obj(obj_file):
                 colors.append([r,g,b])
             elif len(line) > 2 and line[:2] == "f ":
                 ts = line.split()
-                fx = int(ts[1]) - 1
-                fy = int(ts[2]) - 1
+                fy = int(ts[1]) - 1
+                fx = int(ts[2]) - 1
                 fz = int(ts[3]) - 1
                 triangles.append([fx,fy,fz])
     
