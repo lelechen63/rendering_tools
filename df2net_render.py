@@ -89,7 +89,7 @@ def render_single_img():
     renderer = setup_renderer()
     
     fig = plt.figure()
-    temp_path = '/u/lchen63/cvpr2021/cvpr2021/rendering_tools/result/df2net'
+    temp_path = './results/df2net'
     # if os.path.exists(temp_path):
     #     shutil.rmtree(temp_path)
     # os.mkdir(temp_path)
@@ -98,7 +98,7 @@ def render_single_img():
     
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     print (rgb_frame.shape)
-    cv2.imwrite( temp_path +  "/gg.png", rgb_frame)  
+    cv2.imwrite( temp_path +  "gg.png", rgb_frame)  
     print (temp_path +  "/gg.png")
 
 render_single_img()
