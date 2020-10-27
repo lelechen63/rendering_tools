@@ -29,14 +29,10 @@ def parse_args():
     parser.add_argument("--front_img_path",
                         type=str,
                         default='')
-    # parser.add_argument("--front_frame_id",
-    #                     type=int,
-    #                     default=1)
 
 
     return parser.parse_args()
 config = parse_args()
-root = config.root
 
 
 def load_obj(obj_file):
@@ -93,7 +89,7 @@ def render_single_img(front_lmark_path = None ,  key_id = None):
     renderer = setup_renderer()
     
     fig = plt.figure()
-    temp_path = '/u/lchen63/cvpr2021/cvpr2021/SoftRas/result/df2net'
+    temp_path = '/u/lchen63/cvpr2021/cvpr2021/rendering_tools/result/df2net'
     # if os.path.exists(temp_path):
     #     shutil.rmtree(temp_path)
     # os.mkdir(temp_path)
