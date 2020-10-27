@@ -76,7 +76,14 @@ def get_np_uint8_image(mesh, renderer):
     image = (255*image).astype(np.uint8)
     return image
 
-
+def get_np_mesh_image(mesh, renderer):
+    images = renderer.render_mesh(mesh)
+    image = images[0]
+    image = torch.flip(image, [1,2])
+    image = image.detach().cpu().numpy().transpose((1,2,0))
+    # image = np.clip(image, 0, 1)
+    # image = (255*image).astype(np.uint8)
+    return image
 
 def render_single_img():
     overlay = True
@@ -99,7 +106,7 @@ def render_single_img():
     # render with texture
     # face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
 
-    image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
+    image_render = get_np_mesh_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     print (image_render.shape,'-----', image_render.max(), image_render.min() )
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     print (rgb_frame.max())
