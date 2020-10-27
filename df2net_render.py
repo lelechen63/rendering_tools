@@ -99,7 +99,7 @@ def render_single_img():
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
-    mask = mask_n.reshape[res,res, 1]
+    mask = mask_n.reshape(res,res, 1)
     print (mask_n.shape)
     mask = np.repeat(mask, 3, axis = 2)
     print (mask.max(), mask.min())
