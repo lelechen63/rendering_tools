@@ -99,7 +99,7 @@ def render_single_img():
     
     print (input_mask.shape)
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    final_output = input_img * (1-input_mask) + input_mask * image_render
+    final_output = input_img * (1-input_mask) + input_mask * rgb_frame
     # print (rgb_frame.shape)
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
     # print (temp_path +  "/gg.png")
