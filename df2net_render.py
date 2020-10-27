@@ -97,7 +97,9 @@ def render_single_img():
     
     # print (input_mask.shape)
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    mask = rgb_frame.sum(2)
+    # print(rgb_frame.shape)
+    mask = rgb_frame[:,:,0]
+    print(mask)
     mask = mask[mask!=0]=1
     print (mask.shape)
     final_output = input_img * (1-mask) + mask * rgb_frame
