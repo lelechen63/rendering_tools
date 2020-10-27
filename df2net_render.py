@@ -82,7 +82,7 @@ def render_single_img():
     overlay = True
     # load cropped input_img
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_crop.png"
-    input_mask = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
+    # input_mask = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
     input_img = cv2.imread(input_image_path)
     # load the original 3D face mesh then transform it to align frontal face landmarks
     vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
@@ -97,9 +97,12 @@ def render_single_img():
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     
-    print (input_mask.shape)
+    # print (input_mask.shape)
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    final_output = input_img * (1-input_mask) + input_mask * rgb_frame
+    mask = rgb_frame.sum(2)
+    mask = mask[mask!=0]=1
+    print (mask.shape)
+    final_output = input_img * (1-mask) + mask * rgb_frame
     # print (rgb_frame.shape)
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
     # print (temp_path +  "/gg.png")
