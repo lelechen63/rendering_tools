@@ -22,7 +22,7 @@ def parse_args():
     parser.add_argument("--b",
                         type=int,
                         default=0)
-    parser.add_argument("--",
+    parser.add_argument("--s",
                         type=str,
                         default='/home/cxu-serve/p1/lchen63/voxceleb/oppo/')
 
