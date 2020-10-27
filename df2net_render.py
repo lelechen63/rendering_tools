@@ -78,7 +78,7 @@ def get_np_uint8_image(mesh, renderer):
 
 
 
-def render_single_img(front_lmark_path = None ,  key_id = None):
+def render_single_img():
     overlay = True
     # load cropped input_img
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_crop.png"
