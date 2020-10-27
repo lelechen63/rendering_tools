@@ -62,6 +62,35 @@ def load_obj(obj_file):
     
     return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
 
+
+
+def load_obj_without_color(obj_file):
+    vertices = []
+
+    triangles = []
+    colors = []
+
+    with open(obj_file) as infile:
+        for line in infile.read().splitlines():
+            if len(line) > 2 and line[:2] == "v ":
+                ts = line.split()
+                y = float(ts[1])
+                x = float(ts[2])
+                z = float(ts[3])
+                r = float(1)
+                g = float(1])
+                b = float(1)
+                vertices.append([x,y,z])
+                colors.append([r,g,b])
+            elif len(line) > 2 and line[:2] == "f ":
+                ts = line.split()
+                fy = int(ts[1]) - 1
+                fx = int(ts[2]) - 1
+                fz = int(ts[3]) - 1
+                triangles.append([fx,fy,fz])
+    
+    return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
+
 def setup_renderer():    
     renderer = sr.SoftRenderer(camera_mode="look", viewing_scale=2/res, far=10000, perspective=False, image_size=res, camera_direction=[0,0,-1], camera_up=[0,1,0], light_intensity_ambient=1)
     renderer.transform.set_eyes([res/2, res/2, 6000])
@@ -86,7 +115,7 @@ def render_single_img():
     input_img = cv2.imread(input_image_path)
     print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
+    vertices_org, triangles, colors = load_obj_without_color("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
     # set up the renderer
     renderer = setup_renderer()
     
@@ -94,10 +123,10 @@ def render_single_img():
     temp_path = './results/df2net'
     
     # render without texture
-    face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
+    # face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
 
     # render with texture
-    # face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
+    face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     print (image_render.shape,'-----', image_render.max(), image_render.min() )
