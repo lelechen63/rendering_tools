@@ -78,7 +78,7 @@ def load_obj_without_color(obj_file):
                 x = float(ts[2])
                 z = float(ts[3])
                 r = float(1)
-                g = float(1])
+                g = float(1)
                 b = float(1)
                 vertices.append([x,y,z])
                 colors.append([r,g,b])
