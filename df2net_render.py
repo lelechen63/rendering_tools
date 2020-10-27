@@ -98,7 +98,6 @@ def render_single_img():
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
-    print (mask_n.shape)
     mask_n[mask_n!=0]=1
     mask = mask_n
     print (mask_n.shape)
