@@ -81,7 +81,7 @@ def get_np_uint8_image(mesh, renderer):
 def render_single_img():
     overlay = True
     # load cropped input_img
-    input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000.png"
+    input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_ori.png"
     mask_n = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
     input_img = cv2.imread(input_image_path)
     print (input_img.max())
