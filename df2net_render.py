@@ -97,10 +97,12 @@ def render_single_img():
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     mask = rgb_frame[:,:,0]
+    print (rgb_frame.min(), rgb.max(),'===')
     mask[mask!=0]=1
     mask = mask.reshape(512,512,1)
     mask = np.repeat(mask, 3, axis = 2)
-    cv2.imwrite( temp_path +  "/mask.png", mask)  
+    print (mask.max(), mask.min())
+    cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
     final_output = input_img * (1-mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
