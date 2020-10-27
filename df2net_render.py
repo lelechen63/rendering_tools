@@ -97,6 +97,9 @@ def render_single_img():
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     mask = rgb_frame[:,:,0]
     mask[mask!=0]=1
+    mask = mask.reshape(512,512,1)
+    mask = np.repeat(mask, 3, axis = 2)
+
     final_output = input_img * (1-mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
