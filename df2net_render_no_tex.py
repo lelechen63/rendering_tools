@@ -92,7 +92,20 @@ def load_obj_without_color(obj_file):
     return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
 
 def setup_renderer():    
-    renderer = sr.SoftRenderer(camera_mode="look", viewing_scale=2/res, far=10000, perspective=False, image_size=res, camera_direction=[0,0,-1], camera_up=[0,1,0], light_intensity_ambient=1)
+    renderer = sr.SoftRenderer(
+        camera_mode="look", 
+        viewing_scale=2/res, 
+        far=10000, 
+        perspective=False, 
+        image_size=res, 
+        camera_direction=[0,0,-1], 
+        camera_up=[0,1,0],
+        light_intensity_ambient=0.2, 
+        light_color_ambient=[1,1,1],
+        light_intensity_directionals=0.6, 
+        light_color_directionals=[1,1,1],
+        light_directions=[-1,0,-0.8]
+    )
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer
 
@@ -108,37 +121,40 @@ def get_np_uint8_image(mesh, renderer):
 
 
 def render_single_img():
-    overlay = True
+    # overlay = True
     # load cropped input_img
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_ori.png"
     mask_n = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
     input_img = cv2.imread(input_image_path)
-    print (input_img.max())
+    # print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
     vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
     # set up the renderer
     renderer = setup_renderer()
     
-    fig = plt.figure()
-    temp_path = './results/df2net'
+    # fig = plt.figure()
+    # temp_path = './results/df2net'
     
     # render without texture
     # face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
 
     # render with texture
-    face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
+    face_mesh = sr.Mesh(vertices_org, triangles)
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     print (image_render.shape,'-----', image_render.max(), image_render.min() )
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    print (rgb_frame.max())
+
+    # plt.imshow(rgb_frame)
+    # plt.show()
+    # print (rgb_frame.max())
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
-    print (mask_n.shape)
+    # print (mask_n.shape)
     mask = np.repeat(mask, 3, axis = 2)
-    print (mask.max(), mask.min())
+    # print (mask.max(), mask.min())
     cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
     final_output = input_img * (1 - mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
