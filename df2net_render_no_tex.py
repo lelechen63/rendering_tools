@@ -128,12 +128,13 @@ def render_single_img():
     input_img = cv2.imread(input_image_path)
     # print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
+    vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") 
+
     # set up the renderer
     renderer = setup_renderer()
     
     # fig = plt.figure()
-    # temp_path = './results/df2net'
+    temp_path = './results/df2net'
     
     # render without texture
     # face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
