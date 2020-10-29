@@ -8,7 +8,7 @@ import json
 
 def landamrk_extract():
     #============================================================================
-	parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
+    parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
     parser.add_argument( '--conf', type = str, default = '' )
     global args
     args = parser.parse_args()
