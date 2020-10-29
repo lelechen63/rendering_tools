@@ -86,7 +86,7 @@ def landamrk_extract():
             print(need_landmark.shape)
 
             lm = need_landmark
-            image = raw_im
+            image = img
 
             for i in range(5):
                 land = lm[i]
