@@ -56,8 +56,11 @@ def landamrk_extract():
                     h_r = int(np.max((0,min(raw_im.shape[0],h*1.5))))
                     roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
                     img = cv2.resize(roi_color,(224,224))
+                    cv2.imwrite( 'gg.png' , img)
                     preds = fa.get_landmarks(img)
                     lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
                     np.save( lmark_save_path, preds[0])
-
+            else:
+                print ('guickdfjkdjfdjkfd!!!!!')
+                print (img_p)
 landamrk_extract()
