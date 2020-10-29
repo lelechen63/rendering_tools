@@ -39,7 +39,7 @@ def landamrk_extract():
             img =cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
             preds = fa.get_landmarks(img)
             print (type(preds))
-            print (preds)
-            return 0
+            lmark_save_path = os.path.join(   outout_dir , img_p[:-4] + '.npy' )
+            np.save( lmark_save_path, preds[0])
 
 landamrk_extract()
