@@ -123,18 +123,16 @@ def get_np_uint8_image(mesh, renderer):
 def render_single_img( image_path, mask_path , obj_path, save_path):
     # overlay = True
     # load cropped input_img
-    input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_ori.png"
-    mask_n = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
-    input_img = cv2.imread(input_image_path)
+    mask_n = cv2.imread(mask_path)
+    input_img = cv2.imread(image_path)
     # print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") 
+    vertices_org, triangles, colors = load_obj(obj_path) 
 
     # set up the renderer
     renderer = setup_renderer()
     
     # fig = plt.figure()
-    temp_path = './results/df2net'
     
     # render without texture
     # face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
@@ -150,9 +148,8 @@ def render_single_img( image_path, mask_path , obj_path, save_path):
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
-    cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
     final_output = input_img * (1 - mask) + mask * rgb_frame
-    cv2.imwrite( temp_path +  "/conbined.png", final_output)  
+    cv2.imwrite(save_path, final_output)  
 
 def render_all():
     base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
@@ -180,7 +177,10 @@ def render_all():
         for obj in obj_list:
             obj_path = os.path.join( out_dir  , obj[:-4] +  '.obj')
             print (obj_path)
-
-
+            image_path = os.path.join( out_dir  , obj[:-4] +  '_ori.png')
+            mask_path = os.path.join( out_dir  , obj[:-4] +  '_mask.png')
+            
+            save_path =  os.path.join( out_dir  , obj[:-4] +  '_no_tex.png')
+            render_single_img( image_path, mask_path , obj_path, save_path)
 
 render_all()
