@@ -120,7 +120,7 @@ def get_np_uint8_image(mesh, renderer):
 
 
 
-def render_single_img():
+def render_single_img( image_path, mask_path , obj_path, save_path):
     # overlay = True
     # load cropped input_img
     input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_ori.png"
@@ -143,21 +143,44 @@ def render_single_img():
     face_mesh = sr.Mesh(vertices_org, triangles)
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
-    print (image_render.shape,'-----', image_render.max(), image_render.min() )
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
 
-    # plt.imshow(rgb_frame)
-    # plt.show()
-    # print (rgb_frame.max())
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
-    # print (mask_n.shape)
     mask = np.repeat(mask, 3, axis = 2)
-    # print (mask.max(), mask.min())
     cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
     final_output = input_img * (1 - mask) + mask * rgb_frame
     cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
-render_single_img()
+def render_all():
+    base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
+    # load data and prepare dataset
+    pid = 'girl1'
+    vid = "2020-10-19-12-05-51_leftside1"
+    datatype = 'facestar'
+    if datatype == "facestar":
+        cams = ['cam00', 'cam01']
+
+    output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' )
+
+    for cam in cams:
+        out_dir = os.path.join( output_path, cam )
+        # first time:
+        tmp = os.listdir(out_dir)
+        print (out_dir)
+        
+        obj_list =[]
+        for t in tmp:
+            if t[-3:] =='obj':
+                obj_list.append(t)
+        obj_list.sort()
+        print (obj_list)
+        for obj in obj_list:
+            obj_path = os.path.join( out_dir  , obj[:-4] +  '.obj')
+            print (obj_path)
+
+
+
+render_all()
