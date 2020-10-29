@@ -3,10 +3,31 @@ import cv2
 import face_alignment
 import numpy as np
 fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
-face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
+import argparse
+import json
 
 def landamrk_extract():
+    #============================================================================
+	parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
+    parser.add_argument( '--conf', type = str, default = '' )
+    global args
+    args = parser.parse_args()
+    conf_path = args.conf
+    if conf_path == '':
+        print( 'Error: please specificy configure path:' )
+        print( '--conf CONF_PATH' )
+        exit()
+
+    # Load config
+    with open( conf_path, 'r' ) as json_data:
+        config = json.load( json_data )
+    base_dir = config['basedir']
+    pid = config['pid']
+    vid = config['vid']
+    datatype = config['datatype']
+    if datatype == "facestar":
+        cams = ['cam00', 'cam01']
+
 
     base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
     # load data and prepare dataset
@@ -17,11 +38,11 @@ def landamrk_extract():
         cams = ['cam00', 'cam01']
     img_folder = os.path.join(  base_dir, datatype, pid, vid  )
     
-    output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net'  )
+    output_path = os.path.join(  base_dir, datatype, pid, vid , 'deep3dfaceR'  )
     if not os.path.exists(output_path):
         os.mkdir( output_path)
 
-    output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' ,'lands' )
+    output_path = os.path.join(  base_dir, datatype, pid, vid , 'deep3dfaceR' ,'lands' )
     if not os.path.exists(output_path):
         os.mkdir( output_path)
 
@@ -43,24 +64,41 @@ def landamrk_extract():
             print (os.path.join( img_dir  ,img_p  ))
             raw_im = np.load( os.path.join( img_dir  ,img_p  ))
             raw_im = cv2.flip( raw_im, 0 )
-            raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)
-               
-            raw_gray = cv2.cvtColor(raw_im, cv2.COLOR_BGR2GRAY)
+            # raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)   
+            preds = fa.get_landmarks(img)
+            landmark = preds[0]
+            # we need 5 landmarks of the original input image including right eye, left eye, nose tip, right mouth corner and left mouth corner. 
+            need_landmark = []   
+            # right eye
+            need_landmark.append( (landmark[42] + landmark[45]) /2   )
+            # left eye
+            need_landmark.append( (landmark[36] + landmark[39]) /2   )
+            # nose tip
+            need_landmark.append( landmark[33]  )
+            #right mouth corner
+            need_landmark.append( landmark[54]  )
+            #left mouth corner
+            need_landmark.append( landmark[48]  )
 
-            dets = face_cascade.detectMultiScale(raw_gray, 1.3, 5)
-            if not isinstance(dets,tuple):
-                for (x,y,w,h) in dets:
-                    x_r = int(np.max((0,min(raw_im.shape[0],x-w*0.2))))
-                    y_r = int(np.max((0,min(raw_im.shape[1],y-h*0.2))))
-                    w_r = int(np.max((0,min(raw_im.shape[0],w*1.5))))
-                    h_r = int(np.max((0,min(raw_im.shape[0],h*1.5))))
-                    roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
-                    img = cv2.resize(roi_color,(224,224))
-                    cv2.imwrite( 'gg.png' , img)
-                    preds = fa.get_landmarks(img)
-                    lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
-                    np.save( lmark_save_path, preds[0])
-            else:
-                print ('guickdfjkdjfdjkfd!!!!!')
-                print (img_p)
+
+            need_landmark = np.asarray(need_landmark)
+
+            print(need_landmark.shape)
+
+            lm = need_landmark
+            image = raw_im
+
+            for i in range(5):
+                land = lm[i]
+                
+                cv2.circle( image, (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2, (255, 0, 0), -1 )
+                image = cv2.putText(image, str(i), (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2,  
+                        1, (0, 0, 255), 1, cv2.LINE_AA) 
+            cv2.imwrite('./gg.png', image)
+
+            
+
+            lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
+            np.save( lmark_save_path, need_landmark)
+           
 landamrk_extract()
