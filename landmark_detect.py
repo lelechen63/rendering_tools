@@ -40,10 +40,14 @@ def landamrk_extract():
         if not os.path.exists(out_dir):
             os.mkdir(out_dir)
         for img_p in img_list:
+            print (os.path.join( img_dir  ,img_p  ))
             raw_im = np.load( os.path.join( img_dir  ,img_p  ))
             raw_im = cv2.flip( raw_im, 0 )
-            raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)            
+            raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)
+               
             raw_gray = cv2.cvtColor(raw_im, cv2.COLOR_BGR2GRAY)
+
+            cv2.imwrite('./gg.png', raw_gray)
             dets = face_cascade.detectMultiScale(raw_gray, 1.3, 5)
             if not isinstance(dets,tuple):
                 for (x,y,w,h) in dets:
