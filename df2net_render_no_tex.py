@@ -158,7 +158,6 @@ def render_all():
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
 
-
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' )
 
     for cam in cams:
