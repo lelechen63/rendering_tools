@@ -63,7 +63,7 @@ def landamrk_extract():
         for img_p in img_list:
             print (os.path.join( img_dir  ,img_p  ))
             raw_im = np.load( os.path.join( img_dir  ,img_p  ))
-            raw_im = cv2.flip( raw_im, 0 )
+            img = cv2.flip( raw_im, 0 )
             # raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)   
             preds = fa.get_landmarks(img)
             landmark = preds[0]
