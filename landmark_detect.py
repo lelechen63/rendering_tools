@@ -1,6 +1,7 @@
 import os
 import cv2 
 import face_alignment
+import numpy as np
 fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
 
 
