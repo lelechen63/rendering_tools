@@ -34,7 +34,7 @@ def landamrk_extract():
         if not os.path.exists(out_dir):
             os.mkdir(out_dir)
         for img_p in img_list:
-            img = np.load( img_dir  ,img_p  )
+            img = np.load( os.path.join( img_dir  ,img_p  ))
 
             img =cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
             preds = fa.get_landmarks(img)
