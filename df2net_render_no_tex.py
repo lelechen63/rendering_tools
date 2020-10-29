@@ -17,22 +17,7 @@ import pickle
 import shutil
 import argparse
 res = 512
-# def parse_args():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--b",
-#                         type=int,
-#                         default=0)
-#     parser.add_argument("--root",
-#                         type=str,
-#                         default='/home/cxu-serve/p1/lchen63/voxceleb/oppo/')
 
-#     parser.add_argument("--front_img_path",
-#                         type=str,
-#                         default='')
-
-
-#     return parser.parse_args()
-# config = parse_args()
 
 
 def load_obj(obj_file):
@@ -152,13 +137,26 @@ def render_single_img( image_path, mask_path , obj_path, save_path):
     cv2.imwrite(save_path, final_output)  
 
 def render_all():
-    base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
-    # load data and prepare dataset
-    pid = 'girl1'
-    vid = "2020-10-19-12-05-51_leftside1"
-    datatype = 'facestar'
+    parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
+    parser.add_argument( '--conf', type = str, default = '' )
+    global args
+    args = parser.parse_args()
+    conf_path = args.conf
+    if conf_path == '':
+        print( 'Error: please specificy configure path:' )
+        print( '--conf CONF_PATH' )
+        exit()
+
+    # Load config
+    with open( conf_path, 'r' ) as json_data:
+        config = json.load( json_data )
+    base_dir = config['basedir']
+    pid = config['pid']
+    vid = config['vid']
+    datatype = config['datatype']
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
+
 
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' )
 
