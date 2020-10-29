@@ -47,7 +47,6 @@ def landamrk_extract():
                
             raw_gray = cv2.cvtColor(raw_im, cv2.COLOR_BGR2GRAY)
 
-            cv2.imwrite('./gg.png', raw_gray)
             dets = face_cascade.detectMultiScale(raw_gray, 1.3, 5)
             if not isinstance(dets,tuple):
                 for (x,y,w,h) in dets:
@@ -58,7 +57,7 @@ def landamrk_extract():
                     roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
                     img = cv2.resize(roi_color,(224,224))
                     preds = fa.get_landmarks(img)
-                    lmark_save_path = os.path.join(   outout_dir , img_p[:-4] + '.npy' )
+                    lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
                     np.save( lmark_save_path, preds[0])
 
 landamrk_extract()
