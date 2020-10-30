@@ -102,7 +102,9 @@ def render_single_img(  obj_path, mat_path , save_path):
     print (type(recon_img))
     print(recon_img.shape)
     print(recon_img.max() , recon_img.min())
-    
+
+    rgb_frame =  (recon_img).astype(int)[:,:,:-1][...,::-1]
+    cv2.imwrite('./gg.png', rgb_frame)  
 
 
     # load the original 3D face mesh then transform it to align frontal face landmarks
