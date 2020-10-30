@@ -102,6 +102,7 @@ def render_single_img(  obj_path, mat_path , save_path):
 
 
     cropped_img = mat_dic['cropped_img']
+    cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
 
     rgb_frame =  (recon_img).astype(int)[:,:,:-1][...,::-1]
 
