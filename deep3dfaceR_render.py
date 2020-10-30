@@ -19,7 +19,7 @@ import shutil
 import argparse
 import json
 
-res = 512
+res = 224
 
 
 def load_obj(obj_file):
@@ -99,30 +99,29 @@ def render_single_img(  obj_path, mat_path , save_path):
     mat_dic = loadmat(mat_path)
     print (mat_dic.keys())
     recon_img = mat_dic['recon_img']
-    print (type(recon_img))
-    print(recon_img.shape)
-    print(recon_img.max() , recon_img.min())
+
+
+    cropped_img = mat_dic['cropped_img']
 
     rgb_frame =  (recon_img).astype(int)[:,:,:-1][...,::-1]
-    cv2.imwrite('./gg.png', rgb_frame)  
 
 
-    # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj(obj_path) # get unfrontalized vertices position
-    # set up the renderer
-    renderer = setup_renderer()
+    # # load the original 3D face mesh then transform it to align frontal face landmarks
+    # vertices_org, triangles, colors = load_obj(obj_path) # get unfrontalized vertices position
+    # # set up the renderer
+    # renderer = setup_renderer()
         
-    # render with texture
-    face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
+    # # render with texture
+    # face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
 
-    image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, np.uint8
-    rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
+    # image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, np.uint8
+    # rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     mask = rgb_frame[:,:,0]
-    mask_n = mask_n.sum(2)
+    mask_n = mask.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
-    final_output = input_img * (1 - mask) + mask * rgb_frame
+    final_output = cropped_img * (1 - mask) + mask * rgb_frame
 
     cv2.imwrite(save_path, final_output)  
 
