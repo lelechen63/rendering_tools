@@ -160,11 +160,11 @@ def render_all():
         obj_list.sort()
         print (obj_list)
         for obj in obj_list:
-            obj_path = os.path.join( out_dir  , obj[:-4] +  '_mesh.obj')
+            obj_path = os.path.join( out_dir  , obj[:-9] +  '_mesh.obj')
             print (obj_path)
-            mat_path = os.path.join( out_dir  , obj[:-4] +  '.mat')
+            mat_path = os.path.join( out_dir  , obj[:-9] +  '.mat')
 
-            save_path =  os.path.join( out_dir  , obj[:-4] +  '.png')
+            save_path =  os.path.join( out_dir  , obj[:-9] +  '.png')
 
             render_single_img(  obj_path, mat_path , save_path)
 
