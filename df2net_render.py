@@ -16,23 +16,9 @@ import os
 import pickle
 import shutil
 import argparse
+import json
+
 res = 512
-# def parse_args():
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument("--b",
-#                         type=int,
-#                         default=0)
-#     parser.add_argument("--root",
-#                         type=str,
-#                         default='/home/cxu-serve/p1/lchen63/voxceleb/oppo/')
-
-#     parser.add_argument("--front_img_path",
-#                         type=str,
-#                         default='')
-
-
-#     return parser.parse_args()
-# config = parse_args()
 
 
 def load_obj(obj_file):
@@ -107,20 +93,17 @@ def get_np_uint8_image(mesh, renderer):
 
 
 
-def render_single_img():
-    overlay = True
+def render_single_img(image_path, mask_path , obj_path, save_path):
     # load cropped input_img
-    input_image_path = "/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_ori.png"
-    mask_n = cv2.imread("/u/lchen63/cvpr2021/cvpr2021/DF2Net/test_img/image0000_mask.png")
-    input_img = cv2.imread(input_image_path)
+    mask_n = cv2.imread(mask_path)
+    input_img = cv2.imread(image_path)
     print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj("/u/lchen63/cvpr2021/cvpr2021/DF2Net/out_obj/image0000.obj") # get unfrontalized vertices position
+    vertices_org, triangles, colors = load_obj(obj_path) # get unfrontalized vertices position
     # set up the renderer
     renderer = setup_renderer()
     
     fig = plt.figure()
-    temp_path = './results/df2net'
     
     # render without texture
     # face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
@@ -129,18 +112,58 @@ def render_single_img():
     face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
-    print (image_render.shape,'-----', image_render.max(), image_render.min() )
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    print (rgb_frame.max())
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
-    print (mask_n.shape)
     mask = np.repeat(mask, 3, axis = 2)
-    print (mask.max(), mask.min())
-    cv2.imwrite( temp_path +  "/mask.png", mask * 255)  
     final_output = input_img * (1 - mask) + mask * rgb_frame
-    cv2.imwrite( temp_path +  "/conbined.png", final_output)  
 
-render_single_img()
+    cv2.imwrite(save_path, final_output)  
+
+def render_all():
+    parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
+    parser.add_argument( '--conf', type = str, default = '' )
+    global args
+    args = parser.parse_args()
+    conf_path = args.conf
+    if conf_path == '':
+        print( 'Error: please specificy configure path:' )
+        print( '--conf CONF_PATH' )
+        exit()
+
+    # Load config
+    with open( conf_path, 'r' ) as json_data:
+        config = json.load( json_data )
+    base_dir = config['basedir']
+    pid = config['pid']
+    vid = config['vid']
+    datatype = config['datatype']
+    if datatype == "facestar":
+        cams = ['cam00', 'cam01']
+
+    output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' )
+
+    for cam in cams:
+        out_dir = os.path.join( output_path, cam )
+        # first time:
+        tmp = os.listdir(out_dir)
+        print (out_dir)
+        
+        obj_list =[]
+        for t in tmp:
+            if t[-3:] =='obj':
+                obj_list.append(t)
+        obj_list.sort()
+        print (obj_list)
+        for obj in obj_list:
+            obj_path = os.path.join( out_dir  , obj[:-4] +  '.obj')
+            print (obj_path)
+            image_path = os.path.join( out_dir  , obj[:-4] +  '_ori.png')
+            mask_path = os.path.join( out_dir  , obj[:-4] +  '_mask.png')
+            
+            save_path =  os.path.join( out_dir  , obj[:-4] +  '.png')
+            render_single_img( image_path, mask_path , obj_path, save_path)
+
+render_all()

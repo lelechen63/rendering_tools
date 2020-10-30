@@ -5,6 +5,7 @@ from skimage.transform import warp
 from skimage.transform import AffineTransform
 import numpy as np
 import cv2
+from scipy.io import loadmat, savemat
 
 import torch
 import mmcv
@@ -17,7 +18,9 @@ import pickle
 import shutil
 import argparse
 import json
+
 res = 512
+
 
 def load_obj(obj_file):
     vertices = []
@@ -76,20 +79,7 @@ def load_obj_without_color(obj_file):
     return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
 
 def setup_renderer():    
-    renderer = sr.SoftRenderer(
-        camera_mode="look", 
-        viewing_scale=2/res, 
-        far=10000, 
-        perspective=False, 
-        image_size=res, 
-        camera_direction=[0,0,-1], 
-        camera_up=[0,1,0],
-        light_intensity_ambient=0.2, 
-        light_color_ambient=[1,1,1],
-        light_intensity_directionals=0.6, 
-        light_color_directionals=[1,1,1],
-        light_directions=[-1,0,-0.8]
-    )
+    renderer = sr.SoftRenderer(camera_mode="look", viewing_scale=2/res, far=10000, perspective=False, image_size=res, camera_direction=[0,0,-1], camera_up=[0,1,0], light_intensity_ambient=1)
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer
 
@@ -104,30 +94,34 @@ def get_np_uint8_image(mesh, renderer):
 
 
 
-def render_single_img( image_path, mask_path , obj_path, save_path):
-    # overlay = True
-    # load cropped input_img
-    mask_n = cv2.imread(mask_path)
-    input_img = cv2.imread(image_path)
-    # print (input_img.max())
-    # load the original 3D face mesh then transform it to align frontal face landmarks
-    vertices_org, triangles, colors = load_obj(obj_path) 
+def render_single_img(  obj_path, mat_path , save_path):
+    # load images
+    mat_dic = loadmat(mat_path)
+    print (mat_dic.keys())
+    recon_img = mat_dic['recon_img']
+    print (type(recon_img))
+    print(recon_img.shape)
+    print(recon_img.max() , recon_img.min())
+    
 
+
+    # load the original 3D face mesh then transform it to align frontal face landmarks
+    vertices_org, triangles, colors = load_obj(obj_path) # get unfrontalized vertices position
     # set up the renderer
     renderer = setup_renderer()
         
-    # render without texture
-    face_mesh = sr.Mesh(vertices_org, triangles)
+    # render with texture
+    face_mesh = sr.Mesh(vertices_org, triangles, colors, texture_type="vertex")
 
-    image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
+    image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-
     mask = rgb_frame[:,:,0]
     mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = input_img * (1 - mask) + mask * rgb_frame
+
     cv2.imwrite(save_path, final_output)  
 
 def render_all():
@@ -151,7 +145,7 @@ def render_all():
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
 
-    output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net' )
+    output_path = os.path.join(  base_dir, datatype, pid, vid , 'deep3dfaceR' )
 
     for cam in cams:
         out_dir = os.path.join( output_path, cam )
@@ -166,12 +160,12 @@ def render_all():
         obj_list.sort()
         print (obj_list)
         for obj in obj_list:
-            obj_path = os.path.join( out_dir  , obj[:-4] +  '.obj')
+            obj_path = os.path.join( out_dir  , obj[:-4] +  '_mesh.obj')
             print (obj_path)
-            image_path = os.path.join( out_dir  , obj[:-4] +  '_ori.png')
-            mask_path = os.path.join( out_dir  , obj[:-4] +  '_mask.png')
-            
-            save_path =  os.path.join( out_dir  , obj[:-4] +  '_no_tex.png')
-            render_single_img( image_path, mask_path , obj_path, save_path)
+            mat_path = os.path.join( out_dir  , obj[:-4] +  '.mat')
+
+            save_path =  os.path.join( out_dir  , obj[:-4] +  '.png')
+
+            render_single_img(  obj_path, mat_path , save_path)
 
 render_all()
