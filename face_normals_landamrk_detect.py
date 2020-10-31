@@ -69,6 +69,8 @@ def landamrk_extract():
             
             shape = np.round(landmark)
             # draw mask 
+            print (shape.shape)
+            print(shape)
             msk = np.zeros(img.shape, dtype=np.uint8)
             cv2.fillPoly(msk, [cv2.convexHull(shape)], (1,1,1))
                 
