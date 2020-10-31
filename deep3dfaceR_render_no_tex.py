@@ -5,7 +5,6 @@ from skimage.transform import warp
 from skimage.transform import AffineTransform
 import numpy as np
 import cv2
-from scipy.io import loadmat, savemat
 
 import torch
 import mmcv
@@ -18,9 +17,7 @@ import pickle
 import shutil
 import argparse
 import json
-
-res = 224
-
+res = 512
 
 def load_obj(obj_file):
     vertices = []
@@ -79,7 +76,20 @@ def load_obj_without_color(obj_file):
     return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
 
 def setup_renderer():    
-    renderer = sr.SoftRenderer(camera_mode="look", viewing_scale=2/res, far=10000, perspective=False, image_size=res, camera_direction=[0,0,-1], camera_up=[0,1,0], light_intensity_ambient=1)
+    renderer = sr.SoftRenderer(
+        camera_mode="look", 
+        viewing_scale=2/res, 
+        far=10000, 
+        perspective=False, 
+        image_size=res, 
+        camera_direction=[0,0,-1], 
+        camera_up=[0,1,0],
+        light_intensity_ambient=0.2, 
+        light_color_ambient=[1,1,1],
+        light_intensity_directionals=0.6, 
+        light_color_directionals=[1,1,1],
+        light_directions=[-1,0,-0.8]
+    )
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer
 
@@ -94,26 +104,31 @@ def get_np_uint8_image(mesh, renderer):
 
 
 
-def render_single_img(  obj_path, mat_path , save_path):
-    # load images
+def render_single_img( mat_path , obj_path, save_path):
+    # overlay = True
+    # load cropped input_img
     mat_dic = loadmat(mat_path)
-    print (mat_dic.keys())
-    recon_img = mat_dic['recon_img']
-
-
     cropped_img = mat_dic['cropped_img']
     cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
+    # load the original 3D face mesh then transform it to align frontal face landmarks
+    vertices_org, triangles, colors = load_obj(obj_path) 
 
-    rgb_frame =  (recon_img).astype(int)[:,:,:-1][...,::-1]
+    # set up the renderer
+    renderer = setup_renderer()
+        
+    # render without texture
+    face_mesh = sr.Mesh(vertices_org, triangles)
 
-    mask = rgb_frame[:,:,0].reshape(res,res,1)
-    mask_n = mask.sum(2)
+    image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
+    rgb_frame =  (image_render).astype(int)[:,:,:-1]# [...,::-1]
+
+    mask = image_render[:,:,0]
+    mask_n = mask_n.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = cropped_img * (1 - mask) + mask * rgb_frame
-    save_img = np.append( cropped_img, final_output, axis = 1)
-    cv2.imwrite(save_path, save_img)  
+    cv2.imwrite(save_path, final_output)  
 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
@@ -155,8 +170,8 @@ def render_all():
             print (obj_path)
             mat_path = os.path.join( out_dir  , obj[:-9] +  '.mat')
 
-            save_path =  os.path.join( out_dir  , obj[:-9] +  '.png')
-
-            render_single_img(  obj_path, mat_path , save_path)
+            save_path =  os.path.join( out_dir  , obj[:-9] +  '._no_tex.png')
+            
+            render_single_img( mat_path , obj_path, save_path)
 
 render_all()
