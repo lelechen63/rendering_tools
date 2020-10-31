@@ -67,7 +67,7 @@ def landamrk_extract():
             preds = fa.get_landmarks(img)
             landmark = preds[0]
             
-            shape = np.round(landmark)
+            shape = np.round(landmark).astype(int)
             # draw mask 
             print (shape.shape)
             print(shape)
