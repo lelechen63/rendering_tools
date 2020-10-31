@@ -110,7 +110,7 @@ def render_single_img( mat_path , obj_path, save_path):
     # load cropped input_img
     mat_dic = loadmat(mat_path)
     cropped_img = mat_dic['cropped_img']
-    cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
+    # cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
     # load the original 3D face mesh then transform it to align frontal face landmarks
     vertices_org, triangles, colors = load_obj(obj_path) 
 
@@ -121,14 +121,16 @@ def render_single_img( mat_path , obj_path, save_path):
     face_mesh = sr.Mesh(vertices_org, triangles)
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
-    rgb_frame =  (image_render).astype(int)[:,:,:-1]# [...,::-1]
-    
+    rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
+
     mask_n = rgb_frame.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
-    final_output = cropped_img * (1 - mask) + mask * rgb_frame
-    cv2.imwrite(save_path, final_output)  
+    # final_output = cropped_img * (1 - mask) + mask * rgb_frame
+
+    # cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
+    cv2.imwrite(save_path, rgb_frame)  
 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
