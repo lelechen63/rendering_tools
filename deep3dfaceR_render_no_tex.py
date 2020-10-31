@@ -18,6 +18,7 @@ import shutil
 import argparse
 import json
 res = 512
+from scipy.io import loadmat, savemat
 
 def load_obj(obj_file):
     vertices = []
