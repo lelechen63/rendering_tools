@@ -76,21 +76,25 @@ def load_obj_without_color(obj_file):
     
     return (np.array(vertices), np.array(triangles).astype(np.int), np.array(colors))
 
+# def setup_renderer():    
+#     renderer = sr.SoftRenderer(
+#         camera_mode="look", 
+#         viewing_scale=2/res, 
+#         far=10000, 
+#         perspective=False, 
+#         image_size=res, 
+#         camera_direction=[0,0,-1], 
+#         camera_up=[0,1,0],
+#         light_intensity_ambient=0.2, 
+#         light_color_ambient=[1,1,1],
+#         light_intensity_directionals=0.6, 
+#         light_color_directionals=[1,1,1],
+#         light_directions=[-1,0,-0.8]
+#     )
+#     renderer.transform.set_eyes([res/2, res/2, 6000])
+#     return renderer
 def setup_renderer():    
-    renderer = sr.SoftRenderer(
-        camera_mode="look", 
-        viewing_scale=2/res, 
-        far=10000, 
-        perspective=False, 
-        image_size=res, 
-        camera_direction=[0,0,-1], 
-        camera_up=[0,1,0],
-        light_intensity_ambient=0.2, 
-        light_color_ambient=[1,1,1],
-        light_intensity_directionals=0.6, 
-        light_color_directionals=[1,1,1],
-        light_directions=[-1,0,-0.8]
-    )
+    renderer = sr.SoftRenderer(camera_mode="look", viewing_scale=2/res, far=10000, perspective=False, image_size=res, camera_direction=[0,0,-1], camera_up=[0,1,0], light_intensity_ambient=1)
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer
 
