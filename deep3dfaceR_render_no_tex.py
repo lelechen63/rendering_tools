@@ -123,8 +123,7 @@ def render_single_img( mat_path , obj_path, save_path):
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1]# [...,::-1]
 
-    mask = image_render[:,:,0]
-    mask_n = mask_n.sum(2)
+    mask_n = image_render.sum(2)
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
