@@ -99,6 +99,7 @@ def get_np_uint8_image(mesh, renderer):
     image = images[0]
     image = torch.flip(image, [1,2])
     image = image.detach().cpu().numpy().transpose((1,2,0))
+    print (image.max() , image.min(), '====')
     image = np.clip(image, 0, 1)
     image = (255*image).astype(np.uint8)
     return image
