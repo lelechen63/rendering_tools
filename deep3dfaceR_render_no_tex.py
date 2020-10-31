@@ -133,7 +133,7 @@ def render_single_img( mat_path , obj_path, save_path):
     # final_output = cropped_img * (1 - mask) + mask * rgb_frame
 
     # cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
-    cv2.imwrite(save_path, rgb_frame)  
+    cv2.imwrite(save_path, image_render)  
 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
