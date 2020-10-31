@@ -123,7 +123,7 @@ def render_single_img(  obj_path, mat_path , save_path):
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = cropped_img * (1 - mask) + mask * rgb_frame
-    save_img = cv2.append( cropped_img, final_output)
+    save_img = np.append( cropped_img, final_output)
     cv2.imwrite(save_path, save_img)  
 
 def render_all():
