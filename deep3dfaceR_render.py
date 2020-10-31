@@ -106,7 +106,8 @@ def render_single_img(  obj_path, mat_path , save_path):
 
     rgb_frame =  (recon_img).astype(int)[:,:,:-1][...,::-1]
 
-
+    print (mat_dic['face_color'].shape,'++++++')
+    
     # # load the original 3D face mesh then transform it to align frontal face landmarks
     # vertices_org, triangles, colors = load_obj(obj_path) # get unfrontalized vertices position
     # # set up the renderer
