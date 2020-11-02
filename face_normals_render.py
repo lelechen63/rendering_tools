@@ -34,7 +34,7 @@ def render_single(image_path ,mask_path , normal_path, output_path, light_dir = 
 
     print (shading.shape)
 
-    output = shading * mask  + img * (1-mask)
+    output = shading   + img * (1-mask)
     imageio.imsave(output_path, output)
 
 
