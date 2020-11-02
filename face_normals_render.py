@@ -29,7 +29,6 @@ def render_single(image_path ,mask_path , normal_path, output_path, light_dir = 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
     parser.add_argument( '--conf', type = str, default = '' )
-    parser.add_argument( '--with_tex', type = bool, default = True )
 
     global args
     args = parser.parse_args()
@@ -68,10 +67,9 @@ def render_all():
             normal_path = os.path.join( out_dir  , img_p[:-9] +  '_normal.png')
             
             mask_path = os.path.join( out_dir  , img_p[:-9] +  '_musk.jpg')
-            if args.with_tex:
-                save_path =  os.path.join( out_dir  , obj[:-4] +  '_with_tex.png')
-            else:
-                save_path =  os.path.join( out_dir  , obj[:-4] +  '_without_tex.png')
+            
+            
+            save_path =  os.path.join( out_dir  , img_p[:-4] +  '_without_tex.png')
 
             render_single_img( image_path, mask_path , normal_path, save_path )
 
