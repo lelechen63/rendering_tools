@@ -139,6 +139,7 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
     # plt.imshow(rgb_frame[::-1,:,::-1])
     # plt.show()
     print (mask_n.shape)
+    mask_n = mask_n[:,:,0]
     mask_n[mask_n!=0]=1
     mask = mask_n.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
