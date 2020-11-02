@@ -29,13 +29,6 @@ def landamrk_extract():
         cams = ['cam00', 'cam01']
 
 
-    base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
-    # load data and prepare dataset
-    pid = 'girl1'
-    vid = "2020-10-19-12-05-51_leftside1"
-    datatype = 'facestar'
-    if datatype == "facestar":
-        cams = ['cam00', 'cam01']
     img_folder = os.path.join(  base_dir, datatype, pid, vid  )
     
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'face_normals'  )
@@ -114,6 +107,7 @@ def landamrk_extract():
             # save images 
 
             cv2.imwrite( os.path.join(out_dir , img_p[:-4] + '_musk.jpg' ) , msk * 255)
+            img =cv2.cvtColor(img, cv2.COLOR_RGB2BGR)   
             cv2.imwrite( os.path.join(out_dir , img_p[:-4] + '_crop.jpg' ), img)
            
 landamrk_extract()
