@@ -188,7 +188,7 @@ def render_all():
             print (obj_path)
             image_path = os.path.join( out_dir  , obj[:-4] +  '.png')
             # we use depth image to calcaulte the mask
-            mask_path = os.path.join( out_dir  , obj[:-4] +  '_depth.png')
+            mask_path = os.path.join( out_dir  , obj[:-4] +  '_depth.jpg')
             if args.with_tex:
                 save_path =  os.path.join( out_dir  , obj[:-4] +  '_with_tex.png')
             else:
