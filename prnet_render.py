@@ -187,7 +187,7 @@ def render_all():
         for obj in obj_list:
             obj_path = os.path.join( out_dir  , obj[:-4] +  '.obj')
             print (obj_path)
-            image_path = os.path.join( out_dir  , obj[:-4] +  '.png')
+            image_path = os.path.join( out_dir  , obj[:-4] +  '.jpg')
             # we use depth image to calcaulte the mask
             mask_path = os.path.join( out_dir  , obj[:-4] +  '_depth.jpg')
             if args.with_tex:
