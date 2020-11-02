@@ -136,7 +136,7 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
     image_render = get_np_uint8_image(mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
     print(rgb_frame.shape)
-    rgb_frame = rgb_frame[::-1,:,::-1]
+    rgb_frame = rgb_frame[::-1,:,:]
     # plt.imshow(rgb_frame[::-1,:,::-1])
     # plt.show()
     print (mask_n.shape)
