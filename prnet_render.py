@@ -151,7 +151,7 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
     parser.add_argument( '--conf', type = str, default = '' )
-    parser.add_argument( '--with_tex', type = bool, default = True )
+    parser.add_argument( '--with_tex', type = bool )
     
     global args
     args = parser.parse_args()
