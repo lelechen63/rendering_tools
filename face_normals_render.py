@@ -71,7 +71,7 @@ def render_all():
             
             save_path =  os.path.join( out_dir  , img_p[:-4] +  '_without_tex.png')
 
-            render_single_img( image_path, mask_path , normal_path, save_path )
+            render_single( image_path, mask_path , normal_path, save_path )
 
 
 if __name__ == '__main__':
