@@ -23,9 +23,15 @@ def render_single(image_path ,mask_path , normal_path, output_path, light_dir = 
     light_dir = light_dir / np.linalg.norm(light_dir)
 
     shading = normal.dot(light_dir) * light_intensity
+    shading = shading * mask 
+    print (shading.shape)
+    shading =  shading.reshape(res, res, 1)
+    shading  = np.repeat(shading, 3, axis = 2)
+
     mask =  mask.reshape(res, res, 1)
     mask  = np.repeat(mask, 3, axis = 2)
-    shading = shading * mask + img * (1-mask)
+
+    output = shading + img * (1-mask)
     imageio.imsave(output_path, shading)
 
 
