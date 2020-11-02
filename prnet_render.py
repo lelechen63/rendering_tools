@@ -152,7 +152,7 @@ def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
     parser.add_argument( '--conf', type = str, default = '' )
     parser.add_argument( '--with_tex', type = bool, default = True )
-
+    
     global args
     args = parser.parse_args()
     conf_path = args.conf
@@ -160,7 +160,7 @@ def render_all():
         print( 'Error: please specificy configure path:' )
         print( '--conf CONF_PATH' )
         exit()
-
+    print(args.with_tex)
     # Load config
     with open( conf_path, 'r' ) as json_data:
         config = json.load( json_data )
