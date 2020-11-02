@@ -150,9 +150,8 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
-    parser.add_argument( '--conf', type = str, default = '' )
-    parser.add_argument( '--with_tex', type = bool )
-    
+    parser.add_argument( '--conf', type = str, default = '' )    
+    withtex = False
     global args
     args = parser.parse_args()
     conf_path = args.conf
@@ -160,7 +159,6 @@ def render_all():
         print( 'Error: please specificy configure path:' )
         print( '--conf CONF_PATH' )
         exit()
-    print(args.with_tex)
     # Load config
     with open( conf_path, 'r' ) as json_data:
         config = json.load( json_data )
@@ -191,12 +189,12 @@ def render_all():
             image_path = os.path.join( out_dir  , obj[:-4] +  '.jpg')
             # we use depth image to calcaulte the mask
             mask_path = os.path.join( out_dir  , obj[:-4] +  '_depth.jpg')
-            if args.with_tex:
+            if withtex:
                 save_path =  os.path.join( out_dir  , obj[:-4] +  '_with_tex.png')
             else:
                 save_path =  os.path.join( out_dir  , obj[:-4] +  '_without_tex.png')
 
-            render_single_img( image_path, mask_path , obj_path, save_path,args.with_tex )
+            render_single_img( image_path, mask_path , obj_path, save_path, withtex )
 
 
 
