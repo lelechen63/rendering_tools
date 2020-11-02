@@ -1,7 +1,8 @@
 import numpy as np
 import imageio
 import matplotlib.pyplot as plt
-
+import argparse
+import json
 
 def render_single(image_path ,mask_path , normal_path, output_path, light_dir = [0, 0, 1], light_intensity = 0.6):
     mask = imageio.imread(mask_path)
