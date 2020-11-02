@@ -30,7 +30,7 @@ def render_single(image_path ,mask_path , normal_path, output_path, light_dir = 
     print (shading.max() , img.max())
     mask =  mask.reshape(res, res, 1)
     mask  = np.repeat(mask, 3, axis = 2)
-    output = shading   + img * (1-mask)
+    output = shading * 255  + img * (1-mask)
     print(output_path)
     imageio.imsave(output_path, output)
 
