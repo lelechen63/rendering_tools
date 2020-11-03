@@ -122,7 +122,7 @@ def render_single_img( image_path, mask_path , obj_path, save_path):
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
 
-    mask = rgb_frame[:,:,0]
+    mask = rgb_frame[:,:,0].copy()
     # mask_n = mask_n.sum(2)
     mask[mask!=0]=1
     mask = mask.reshape(res,res, 1)

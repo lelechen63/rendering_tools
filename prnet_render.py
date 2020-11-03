@@ -120,7 +120,7 @@ def get_np_uint8_image(mesh, renderer):
 
 def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=True):
     # load cropped input_img
-    mask_n = cv2.imread(mask_path)
+    # mask_n = cv2.imread(mask_path)
     input_img = cv2.imread(image_path)
 
 
@@ -139,10 +139,11 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
     rgb_frame = rgb_frame[::-1,:,:]
     # plt.imshow(rgb_frame[::-1,:,::-1])
     # plt.show()
-    print (mask_n.shape)
-    mask_n = mask_n[:,:,0]
-    mask_n[mask_n!=0]=1
-    mask = mask_n.reshape(res,res, 1)
+    # print (mask_n.shape)
+    mask = rgb_frame[:,:,0]
+    # mask_n = mask_n[:,:,0]
+    mask[mask!=0]=1
+    mask = mask.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = input_img * (1 - mask) + mask * rgb_frame
 
