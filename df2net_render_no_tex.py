@@ -107,7 +107,7 @@ def get_np_uint8_image(mesh, renderer):
 def render_single_img( image_path, mask_path , obj_path, save_path):
     # overlay = True
     # load cropped input_img
-    mask_n = cv2.imread(mask_path)
+    # mask_n = cv2.imread(mask_path)
     input_img = cv2.imread(image_path)
     # print (input_img.max())
     # load the original 3D face mesh then transform it to align frontal face landmarks
@@ -123,9 +123,9 @@ def render_single_img( image_path, mask_path , obj_path, save_path):
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
 
     mask = rgb_frame[:,:,0]
-    mask_n = mask_n.sum(2)
-    mask_n[mask_n!=0]=1
-    mask = mask_n.reshape(res,res, 1)
+    # mask_n = mask_n.sum(2)
+    mask[mask!=0]=1
+    mask = mask.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = input_img * (1 - mask) + mask * rgb_frame
     cv2.imwrite(save_path, final_output)  
