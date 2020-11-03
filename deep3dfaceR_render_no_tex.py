@@ -91,7 +91,7 @@ def render_single_img( mat_path , obj_path, save_path):
     # load cropped input_img
     mat_dic = loadmat(mat_path)
     cropped_img = mat_dic['cropped_img']
-    # cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
+    cropped_img  =cv2.cvtColor(cropped_img, cv2.COLOR_RGB2BGR)  
     # load the original 3D face mesh then transform it to align frontal face landmarks
     vertices_org, triangles, colors = load_obj(obj_path) 
 
