@@ -1,6 +1,5 @@
 import lpips
 import torch
-from skimage.metrics import mean_squared_error
 import pytorch_ssim
 
 loss_fn_alex = lpips.LPIPS(net='alex') # best forward scores
@@ -23,8 +22,8 @@ def lpips_dis( x, y):
     return d
 
 def l2_dis(x, y):
-    d = mean_squared_error(x, y)
-    return d
+    mse = np.mean( (img1 - img2) ** 2 )
+    return mse
 
 
 
