@@ -81,15 +81,13 @@ def landamrk_extract():
             lm = need_landmark
             image = img
 
-            for i in range(5):
-                land = lm[i]
+            # for i in range(5):
+            #     land = lm[i]
                 
-                cv2.circle( image, (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2, (255, 0, 0), -1 )
-                image = cv2.putText(image, str(i), (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2,  
-                        1, (0, 0, 255), 1, cv2.LINE_AA) 
-            cv2.imwrite('./gg.png', image)
-
-            
+            #     cv2.circle( image, (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2, (255, 0, 0), -1 )
+            #     image = cv2.putText(image, str(i), (int( land[ 0 ] + 0.5), int( land[ 1 ] + 0.5 )), 2,  
+            #             1, (0, 0, 255), 1, cv2.LINE_AA) 
+            # cv2.imwrite('./gg.png', image)
 
             lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
             np.save( lmark_save_path, need_landmark)

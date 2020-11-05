@@ -123,7 +123,6 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
     # mask_n = cv2.imread(mask_path)
     input_img = cv2.imread(image_path)
 
-
     if with_texture:
         mesh = sr.Mesh.from_obj(obj_path, load_texture=True, texture_res=5, texture_type="surface")
     else:
