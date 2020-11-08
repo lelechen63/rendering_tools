@@ -26,7 +26,6 @@ def l2_dis(x, y):
     return mse
 
 
-
 def ssim_dis(x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
     x = torch.tensor( x, dtype=torch.float32).cuda().unsequeeze(0)
@@ -50,3 +49,8 @@ def psnr_dis(x, y):
     return d
 
 
+
+def cpbd_dis(x):
+    # xsize : ( 3, N,N), cv2 readed image, value range (0,255)
+    d =  cpbd.compute(x)
+    return d
