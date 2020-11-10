@@ -8,15 +8,28 @@ face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
 def landamrk_extract():
 
-    base_dir = '/u/lchen63/cvpr2021/cvpr2021/data/data'
-    # load data and prepare dataset
-    pid = 'girl1'
-    vid = "2020-10-19-12-05-51_leftside1"
-    datatype = 'facestar'
+    parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')
+    parser.add_argument( '--conf', type = str, default = '' )
+    global args
+    args = parser.parse_args()
+    conf_path = args.conf
+    if conf_path == '':
+        print( 'Error: please specificy configure path:' )
+        print( '--conf CONF_PATH' )
+        exit()
+
+    # Load config
+    with open( conf_path, 'r' ) as json_data:
+        config = json.load( json_data )
+    base_dir = config['basedir']
+    pid = config['pid']
+    vid = config['vid']
+    datatype = config['datatype']
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
-    elif datatype == "iphone":
+    else:
         cams = ['iPhone']
+
     img_folder = os.path.join(  base_dir, datatype, pid, vid  )
     
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net'  )
