@@ -61,6 +61,7 @@ def landamrk_extract():
             raw_im = np.load( os.path.join( img_dir  ,img_p  ))
             raw_im = cv2.flip( raw_im, 0 )
             preds = fa.get_landmarks(raw_im)[0]
+            preds = preds.astype(int)
             w = max( preds[:,0] ) - min( preds[:,0] ) 
             h = max( preds[:,1] ) - min( preds[:,1] ) 
             x_r = max( 0, min( preds[:,0] ) -  0.2*w )
