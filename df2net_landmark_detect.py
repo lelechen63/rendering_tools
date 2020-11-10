@@ -60,24 +60,23 @@ def landamrk_extract():
             print (os.path.join( img_dir  ,img_p  ))
             raw_im = np.load( os.path.join( img_dir  ,img_p  ))
             raw_im = cv2.flip( raw_im, 0 )
-            raw_im =cv2.cvtColor(raw_im, cv2.COLOR_RGB2BGR)
-               
-            raw_gray = cv2.cvtColor(raw_im, cv2.COLOR_BGR2GRAY)
+            preds = fa.get_landmarks(raw_im)[0]
+            w = max( preds[:,0] ) - min( preds[:,0] ) 
+            h = max( preds[:,1] ) - min( preds[:,1] ) 
+            x_r = max( 0, min( preds[:,0] ) -  0.2*w )
+            y_r = max( 0, min( preds[:,1] ) -  0.2*h )
+            w_r = max ( min( raw_im.shape[0], w* 1.5), 0  )
+            h_r  =max ( min( raw_im.shape[1], h* 1.5), 0  )
 
-            dets = face_cascade.detectMultiScale(raw_gray, 1.3, 5)
-            if not isinstance(dets,tuple):
-                for (x,y,w,h) in dets:
-                    x_r = int(np.max((0,min(raw_im.shape[0],x-w*0.2))))
-                    y_r = int(np.max((0,min(raw_im.shape[1],y-h*0.2))))
-                    w_r = int(np.max((0,min(raw_im.shape[0],w*1.5))))
-                    h_r = int(np.max((0,min(raw_im.shape[0],h*1.5))))
-                    roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
-                    img = cv2.resize(roi_color,(224,224))
-                    cv2.imwrite( 'gg.png' , img)
-                    preds = fa.get_landmarks(img)
-                    lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
-                    np.save( lmark_save_path, preds[0])
-            else:
-                print ('guickdfjkdjfdjkfd!!!!!')
-                print (img_p)
+
+           
+            roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
+            roi_color =cv2.cvtColor(roi_color, cv2.COLOR_RGB2BGR)  
+            cv2.imwrite('gg.png', roi_color)
+
+            img = cv2.resize(roi_color,(224,224))
+            preds = fa.get_landmarks(img)
+            lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
+            np.save( lmark_save_path, preds[0])
+
 landamrk_extract()
