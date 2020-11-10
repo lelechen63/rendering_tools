@@ -71,7 +71,7 @@ def landamrk_extract():
 
 
            
-            roi_color = raw_im[ y_r:h_r+y_r,x_r:x_r+w_r]
+            roi_color = raw_im[ int(y_r):int(h_r + y_r),int(x_r):int(x_r+w_r)]
             roi_color =cv2.cvtColor(roi_color, cv2.COLOR_RGB2BGR)  
             cv2.imwrite('gg.png', roi_color)
 
