@@ -15,7 +15,7 @@ def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensi
 
     mask = normal.copy()
     if len(mask.shape) == 3:
-        mask = mask[:,:,0]
+        mask = mask.sum(2)
     mask[mask >0] =255
     normal = normal[:,:,:3] # only use the rgb
     
