@@ -98,11 +98,11 @@ def setup_renderer(using_texture=False):
             image_size=res, 
             camera_direction=[0,0,-1], 
             camera_up=[0,1,0], 
-            light_intensity_ambient=0.6, 
+            light_intensity_ambient=0.2, 
             light_color_ambient=[1,1,1],
-            light_intensity_directionals=0.2, 
+            light_intensity_directionals=0.6, 
             light_color_directionals=[1,1,1],
-            light_directions=[0.3,0.3,1]
+            light_directions=[0,0,1]
         )
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer
@@ -121,7 +121,7 @@ def get_np_uint8_image(mesh, renderer):
 def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=True):
     # load cropped input_img
     # mask_n = cv2.imread(mask_path)
-    input_img = cv2.imread(image_path)
+    input_img = cv2.imread(image_path) / 255.0
 
     if with_texture:
         mesh = sr.Mesh.from_obj(obj_path, load_texture=True, texture_res=5, texture_type="surface")
@@ -133,20 +133,22 @@ def render_single_img(image_path, mask_path , obj_path, save_path, with_texture=
     # fig = plt.figure()
 
     image_render = get_np_uint8_image(mesh, renderer) # RGBA, (224,224,3), np.uint8
-    rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]
-    print(rgb_frame.shape)
+    rgb_frame =  image_render / 255.0
+    print(rgb_frame.shape, np.max(rgb_frame), np.min(rgb_frame))
+    rgb_frame = rgb_frame[:,:,:3]
     rgb_frame = rgb_frame[::-1,:,:]
     # plt.imshow(rgb_frame[::-1,:,::-1])
     # plt.show()
     # print (mask_n.shape)
-    mask = rgb_frame[:,:,0]
+    mask = rgb_frame[:,:,0].copy()
     # mask_n = mask_n[:,:,0]
     mask[mask!=0]=1
     mask = mask.reshape(res,res, 1)
     mask = np.repeat(mask, 3, axis = 2)
     final_output = input_img * (1 - mask) + mask * rgb_frame
-
-    cv2.imwrite(save_path, final_output)  
+    #plt.imshow(final_output[:,:,::-1])
+    #plt.show()
+    cv2.imwrite(save_path, np.clip((255 * final_output), 0, 255).astype(np.uint8))  
 
 def render_all():
     parser = argparse.ArgumentParser(description='PyTorch Face Reconstruction')

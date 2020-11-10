@@ -88,7 +88,7 @@ def setup_renderer():
         light_color_ambient=[1,1,1],
         light_intensity_directionals=0.6, 
         light_color_directionals=[1,1,1],
-        light_directions=[-1,0,-0.8]
+        light_directions=[0,0,-1]
     )
     renderer.transform.set_eyes([res/2, res/2, 6000])
     return renderer

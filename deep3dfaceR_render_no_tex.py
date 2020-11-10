@@ -99,7 +99,7 @@ def render_single_img( mat_path , obj_path, save_path):
     renderer = setup_renderer()
         
     # render without texture
-    face_mesh = sr.Mesh(vertices_org, triangles, texture_type="vertex")
+    face_mesh = sr.Mesh(vertices_org, triangles)
 
     image_render = get_np_uint8_image(face_mesh, renderer) # RGBA, (224,224,3), np.uint8
     rgb_frame =  (image_render).astype(int)[:,:,:-1][...,::-1]

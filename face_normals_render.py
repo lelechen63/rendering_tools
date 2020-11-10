@@ -7,11 +7,10 @@ import os
 
 res =  256
 def render_single(image_path ,mask_path , normal_path, output_path, light_dir = [0, 0, 1], light_intensity = 0.6):
-    
     mask = imageio.imread(mask_path)
     normal = imageio.imread(normal_path)
 
-    img = imageio.imread(image_path)
+    img = imageio.imread(image_path) / 255.0
     if len(mask.shape) == 3:
         mask = mask[:,:,0]
     normal = normal[:,:,:3] # only use the rgb
@@ -23,15 +22,15 @@ def render_single(image_path ,mask_path , normal_path, output_path, light_dir = 
     light_dir = np.array(light_dir)
     light_dir = light_dir / np.linalg.norm(light_dir)
 
-    shading = normal.dot(light_dir) * light_intensity
+    cosine = normal.dot(light_dir)
+    shading = light_intensity * cosine + 0.3 * light_intensity * cosine**9.0 + 0.2
     shading = shading * mask 
     shading =  shading.reshape(res, res, 1)
     shading  = np.repeat(shading, 3, axis = 2)
     print (shading.max() , img.max())
     mask =  mask.reshape(res, res, 1)
     mask  = np.repeat(mask, 3, axis = 2)
-    output = shading * 255  + img * (1-mask)
-    print(output_path)
+    output = shading + img * (1-mask)
     imageio.imsave(output_path, output)
 
 
