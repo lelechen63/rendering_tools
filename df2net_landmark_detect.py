@@ -2,6 +2,8 @@ import os
 import cv2 
 import face_alignment
 import numpy as np
+import argparse
+import json
 fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
