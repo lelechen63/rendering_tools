@@ -15,6 +15,8 @@ def landamrk_extract():
     datatype = 'facestar'
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
+    elif datatype == "iphone":
+        cams = ['iPhone']
     img_folder = os.path.join(  base_dir, datatype, pid, vid  )
     
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'df2net'  )
