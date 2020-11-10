@@ -68,12 +68,15 @@ def landamrk_extract():
             y_r = max( 0, min( preds[:,1] ) -  0.2*h )
             w_r = max ( min( raw_im.shape[0], w* 1.5), 0  )
             h_r  =max ( min( raw_im.shape[1], h* 1.5), 0  )
+            cv2.circle( raw_im, (int( x_r + 0.5), int( y_r + 0.5 )), 2, (255, 0, 0), -1 )
 
+            print (y_r   , h_r,     x_r,   w_r )
 
            
             roi_color = raw_im[ int(y_r):int(h_r + y_r),int(x_r):int(x_r+w_r)]
             roi_color =cv2.cvtColor(roi_color, cv2.COLOR_RGB2BGR)  
             cv2.imwrite('gg.png', roi_color)
+            cv2.imwrite('gg2.png', raw_im)
 
             img = cv2.resize(roi_color,(224,224))
             preds = fa.get_landmarks(img)
