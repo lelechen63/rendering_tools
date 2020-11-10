@@ -5,10 +5,10 @@ import argparse
 import json
 import os
 
-res =  256
 def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensity = 0.6):
     result =    imageio.imread(image_path) 
     print (result.shape)
+    high = result.shape[0]
     width = int(result.shape[1] /3)
     normal = result[:,width * 2:, :]
     img = result[:,:width,:]/255.0
@@ -28,10 +28,10 @@ def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensi
     cosine = normal.dot(light_dir)
     shading = light_intensity * cosine + 0.3 * light_intensity * cosine**9.0 + 0.2
     shading = shading * mask 
-    shading =  shading.reshape(res, res, 1)
+    shading =  shading.reshape(high, width, 1)
     shading  = np.repeat(shading, 3, axis = 2)
     print (shading.max() , img.max())
-    mask =  mask.reshape(res, res, 1)
+    mask =  mask.reshape(high, width, 1)
     mask  = np.repeat(mask, 3, axis = 2)
     output = shading + img * (1-mask)
     imageio.imsave(output_path, output)
