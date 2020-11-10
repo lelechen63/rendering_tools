@@ -16,6 +16,7 @@ def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensi
     mask = normal.copy()
     if len(mask.shape) == 3:
         mask = mask[:,:,0]
+    mask[mask >0] =255
     normal = normal[:,:,:3] # only use the rgb
     
     mask = mask / 255.0
@@ -34,6 +35,7 @@ def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensi
     mask =  mask.reshape(high, width, 1)
     mask  = np.repeat(mask, 3, axis = 2)
     output = shading + img * (1-mask)
+    print output
     imageio.imsave(output_path, output)
 
 
