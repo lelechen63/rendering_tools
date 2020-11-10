@@ -7,13 +7,13 @@ import os
 
 res =  256
 def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensity = 0.6):
-    img =    imageio.imread(image_path) 
-    print (img.shape)
-    
-    mask = imageio.imread(mask_path)
-    normal = imageio.imread(normal_path)
+    result =    imageio.imread(image_path) 
+    print (result.shape)
+    width = int(result.shape[1] /3)
+    normal = result[:,width * 2:, :]
+    img = result[:,:width,:]/255.0
 
-    img = imageio.imread(image_path) / 255.0
+    mask = normal.copy()
     if len(mask.shape) == 3:
         mask = mask[:,:,0]
     normal = normal[:,:,:3] # only use the rgb
