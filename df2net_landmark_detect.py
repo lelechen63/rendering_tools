@@ -68,17 +68,12 @@ def landamrk_extract():
             y_r = max( 0, min( preds[:,1] ) -  0.3*h )
             w_r = max ( min( raw_im.shape[0], w* 1.7), 0  )
             h_r  =max ( min( raw_im.shape[1], h* 1.7), 0  )
-            cv2.circle( raw_im, (int( x_r + 0.5), int( y_r + 0.5 )), 2, (255, 0, 0), -1 )
+            w_r = h_r =min( w_r, h_r)
 
-            print (y_r   , h_r,     x_r,   w_r )
-
-           
             roi_color = raw_im[ int(y_r):int(h_r + y_r),int(x_r):int(x_r+w_r)]
             roi_color =cv2.cvtColor(roi_color, cv2.COLOR_RGB2BGR)  
-            cv2.imwrite('gg.png', roi_color)
-            cv2.imwrite('gg2.png', raw_im)
-
-            img = cv2.resize(roi_color,(224,224))
+            img = cv2.resize(roi_color,(512,512))
+            cv2.imwrite( os.path.join(   out_dir , img_p[:-4] + '_crop.png' ), img )
             preds = fa.get_landmarks(img)
             lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
             np.save( lmark_save_path, preds[0])
