@@ -14,7 +14,7 @@
 
 #generate mat in df2net
 # conda activate df2net
-# cd /u/lchen63/cvpr2021/cvpr2021/DF2Net
+cd /u/lchen63/cvpr2021/cvpr2021/DF2Net
 python demo.py --conf ../chen_facestar.json
 python demo.py --conf ../gir1_iphone.json
 python demo.py --conf ../Israel_iphone.json
