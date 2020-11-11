@@ -11,7 +11,7 @@ conda activate base
 conda activate pytorch1.1python3
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../rendering_tools
-python df2net_render_no_tex.py --conf ../jason_facestar.json
+python df2net_render_no_tex.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # MGCNet
@@ -20,7 +20,7 @@ conda activate base
 conda activate mgcnet
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../MGCNet
-python test_image.py --conf ../jason_facestar.json
+python test_image.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # Deep3DR
@@ -29,7 +29,7 @@ conda activate base
 conda activate pytorch1.1python3
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../rendering_tools
-python deep3dfaceR_render_no_tex.py --conf ../jason_facestar.json
+python deep3dfaceR_render_no_tex.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # PRNet
@@ -38,7 +38,7 @@ conda activate base
 conda activate pytorch1.1python3
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../rendering_tools
-python prnet_render.py --conf ../jason_facestar.json
+python prnet_render.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # Face_normals
@@ -47,7 +47,7 @@ conda activate base
 conda activate pytorch1.1python3
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../rendering_tools
-python face_normals_render.py --conf ../jason_facestar.json
+python face_normals_render.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # RingNet
@@ -56,7 +56,7 @@ conda activate base
 conda activate ringnet
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../RingNet
-python demo.py --conf ../jason_facestar.json
+python demo.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # 3DDFAv2
@@ -65,7 +65,7 @@ conda activate base
 conda activate 3ddfav2
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd ../3DDFA_V2
-python demo.py --conf ../jason_facestar.json
+python demo.py --conf ../kevyn_iphone.json
 cd ../rendering_tools
 
 # DONE
