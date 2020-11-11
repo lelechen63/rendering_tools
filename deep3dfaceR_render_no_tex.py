@@ -138,6 +138,8 @@ def render_all():
     datatype = config['datatype']
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
+    else:
+        cams = ['iPhone']
 
     output_path = os.path.join(  base_dir, datatype, pid, vid , 'deep3dfaceR' )
 
