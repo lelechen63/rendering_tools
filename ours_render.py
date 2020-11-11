@@ -6,7 +6,8 @@ import json
 import os
 
 def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensity = 0.6):
-    result =    imageio.imread(image_path) 
+    print(image_path)
+    result = imageio.imread(image_path) 
     print (result.shape)
     high = result.shape[0]
     width = int(result.shape[1] /3)
@@ -18,24 +19,28 @@ def render_single(image_path , output_path, light_dir = [0, 0, 1], light_intensi
         mask = mask.sum(2)
     mask[mask >0] =255
     normal = normal[:,:,:3] # only use the rgb
-    
+  
     mask = mask / 255.0
     normal = normal / 255.0
     normal = 2.0 * normal - 1
+    normal = normal / (np.linalg.norm(normal, axis=2)[..., np.newaxis] + 1e-8) # normalize normal
 
     light_dir = np.array(light_dir)
     light_dir = light_dir / np.linalg.norm(light_dir)
 
-    cosine = normal.dot(light_dir)
-    shading = light_intensity * cosine + 0.3 * light_intensity * cosine**9.0 + 0.2
+    cosine = np.clip(normal.dot(light_dir), 0, 1.0)
+    shading = 0.8 * light_intensity * cosine + 0.5 * light_intensity * cosine**30.0 + 0.2
     shading = shading * mask 
     shading =  shading.reshape(high, width, 1)
     shading  = np.repeat(shading, 3, axis = 2)
     print (shading.max() , img.max())
+    print (shading.min() , img.min())
     mask =  mask.reshape(high, width, 1)
     mask  = np.repeat(mask, 3, axis = 2)
     output = shading + img * (1-mask)
     print (output_path)
+    #plt.imshow(output)
+    #plt.show()
     imageio.imsave(output_path, output)
 
 
@@ -80,6 +85,7 @@ def render_all():
         tmp = os.listdir(os.path.join( img_path_path, cam ))
         img_list =[]
         for t in tmp:
+            if t[-3:]=='png':
                 img_list.append(t)
         img_list.sort()
         print (img_list)
