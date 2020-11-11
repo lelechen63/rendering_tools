@@ -74,6 +74,7 @@ def landamrk_extract():
             roi_color =cv2.cvtColor(roi_color, cv2.COLOR_RGB2BGR)  
             img = cv2.resize(roi_color,(512,512))
             cv2.imwrite( os.path.join(   out_dir , img_p[:-4] + '_crop.png' ), img )
+            img = cv2.resize(img,(224,224))
             preds = fa.get_landmarks(img)
             lmark_save_path = os.path.join(   out_dir , img_p[:-4] + '.npy' )
             np.save( lmark_save_path, preds[0])
