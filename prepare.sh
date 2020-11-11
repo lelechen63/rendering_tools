@@ -1,6 +1,22 @@
 # prepare landamrk for df2net
 # conda activate face_alignment
 
+# Deep3DR
+ALG_NAME='Deep3DR'
+conda activate base
+conda activate pytorch1.1python3
+echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
+cd /u/lchen63/cvpr2021/cvpr2021/rendering_tools
+python deep3dfaceR_render --conf ../chen_facestar.json
+python deep3dfaceR_render --conf ../dani_iphone.json
+python deep3dfaceR_render --conf ../gir1_iphone.json
+python deep3dfaceR_render --conf ../Israel_iphone.json
+python deep3dfaceR_render --conf ../jason_facestar.json
+python deep3dfaceR_render --conf ../kevyn_iphone.json
+python deep3dfaceR_render --conf ../shugao_facestar.json
+python deep3dfaceR_render --conf ../steve_iphone.json
+
+
 
 # cd /u/lchen63/cvpr2021/cvpr2021/rendering_tools
 # python df2net_landmark_detect.py --conf ../chen_facestar.json
