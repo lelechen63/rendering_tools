@@ -27,6 +27,8 @@ def landamrk_extract():
     datatype = config['datatype']
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
+    elif datatype == "iphone":
+        cams = ['iPhone']
 
 
     img_folder = os.path.join(  base_dir, datatype, pid, vid  )

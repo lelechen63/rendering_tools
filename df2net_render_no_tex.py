@@ -148,7 +148,7 @@ def render_all():
     datatype = config['datatype']
     if datatype == "facestar":
         cams = ['cam00', 'cam01']
-    else:
+    elif datatype == "iphone":
         cams = ['iPhone']
 
 
