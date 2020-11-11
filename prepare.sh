@@ -65,22 +65,22 @@
 # python face_normals_landamrk_detect.py --conf ../steve_iphone.json
 
 #conda activate face_normals
-cd /u/lchen63/cvpr2021/cvpr2021/face_normals
-python tester.py --conf ../chen_facestar.json
-python tester.py --conf ../gir1_iphone.json
-python tester.py --conf ../Israel_iphone.json
-python tester.py --conf ../jason_facestar.json
-python tester.py --conf ../kevyn_iphone.json
-python tester.py --conf ../shugao_facestar.json
-python tester.py --conf ../steve_iphone.json
+# cd /u/lchen63/cvpr2021/cvpr2021/face_normals
+# python tester.py --conf ../chen_facestar.json
+# python tester.py --conf ../gir1_iphone.json
+# python tester.py --conf ../Israel_iphone.json
+# python tester.py --conf ../jason_facestar.json
+# python tester.py --conf ../kevyn_iphone.json
+# python tester.py --conf ../shugao_facestar.json
+# python tester.py --conf ../steve_iphone.json
 
 # conda activate prnet
-# cd /u/lchen63/cvpr2021/cvpr2021/PRNet
-# python demo.py --conf ../chen_facestar.json
-# python demo.py --conf ../gir1_iphone.json
-# python demo.py --conf ../Israel_iphone.json
-# python demo.py --conf ../jason_facestar.json
-# python demo.py --conf ../kevyn_iphone.json
-# python demo.py --conf ../shugao_facestar.json
-# python demo.py --conf ../steve_iphone.json
+cd /u/lchen63/cvpr2021/cvpr2021/PRNet
+python demo.py --conf ../chen_facestar.json
+python demo.py --conf ../gir1_iphone.json
+python demo.py --conf ../Israel_iphone.json
+python demo.py --conf ../jason_facestar.json
+python demo.py --conf ../kevyn_iphone.json
+python demo.py --conf ../shugao_facestar.json
+python demo.py --conf ../steve_iphone.json
 
