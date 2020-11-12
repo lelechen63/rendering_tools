@@ -33,6 +33,13 @@ def lpips_dis( x, y):
 def l2_dis(x, y):
     mse = np.mean( (x - y) ** 2 )
     return mse
+    
+def psnr_dis(img1, img2):
+    mse = np.mean( (img1 - img2) ** 2 )
+    if mse == 0:
+        return 100
+    PIXEL_MAX = 255.0
+    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 
 
 def ssim_dis(x, y):

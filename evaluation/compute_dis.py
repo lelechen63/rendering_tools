@@ -46,11 +46,7 @@ def calculate(method = 'ours'):
     if method== 'ours':
         count = 0 
         for img_p in img_list:
-            print ('+++')
-
-            print (img_p)
             result = cv2.imread(img_p)
-            print (result.shape)
             high = result.shape[0]
             width = int(result.shape[1] /3)
 
@@ -60,17 +56,14 @@ def calculate(method = 'ours'):
             cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/ours/real/%d.png'%count, gt_img)
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
-            lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
+            lpips_loss.append(loss.psnr_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
             count+= 1
     elif method== 'MGCNet':
         count = 0 
         for img_p in img_list:
-            print ('+++')
-            print (img_p)
             result = cv2.imread(img_p)
-            print (result.shape)
             high = result.shape[0]
             width = int(result.shape[1] /6)
 
@@ -81,7 +74,7 @@ def calculate(method = 'ours'):
 
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
-            lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
+            lpips_loss.append(loss.psnr_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
             count+= 1
@@ -102,7 +95,7 @@ def calculate(method = 'ours'):
 
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
-            lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
+            lpips_loss.append(loss.psnr_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
             count+= 1
@@ -125,9 +118,11 @@ def calculate(method = 'ours'):
 
 
 # compute fid     
-#python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --path2/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --batch-size 8
+#python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --path2 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --batch-size 8
 
+#python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/ours/real --path2 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/ours/real --batch-size 8
+#python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/real --path2 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/real --batch-size 8
 
 calculate(method = 'ours')
-calculate(method = 'MGCNet')
-calculate(method = 'deep3dR')
+# calculate(method = 'MGCNet')
+# calculate(method = 'deep3dR')
