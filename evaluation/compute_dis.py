@@ -36,9 +36,9 @@ def get_list(method = 'deep3dR'):
     return img_list
 
 def calculate(method = 'ours'):
-    
+    print (method)
     img_list = get_list(method)
-
+    print (len(img_list))
     l2_loss = []
     ssim_loss = []
     lpips_loss = []
@@ -76,6 +76,7 @@ def calculate(method = 'ours'):
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
+
     print (l2_loss)
     print ('====================')
     print ('l2:', sum(l2_loss)/len(l2_loss))
