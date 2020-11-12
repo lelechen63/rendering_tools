@@ -33,7 +33,7 @@ def get_list(method = 'deep3dR'):
                             img_list.append(img_path)
 
 
-    return img_path
+    return img_list
 
 def calculate(method = 'ours'):
     
