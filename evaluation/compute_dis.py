@@ -16,7 +16,7 @@ def get_list(method = 'deep3dR'):
     elif method == 'MGCNet':
         for root, dirs, files in os.walk('/u/lchen63/cvpr2021/cvpr2021/data/data'):
             for file in files:
-                if file.endswith(".png"):
+                if file.endswith(".jpg"):
                     img_path = os.path.join(root, file)
                     if 'mgcnet' in img_path:
                         if '_mulPoses' in img_path:
