@@ -44,8 +44,10 @@ def calculate(method = 'ours'):
     cpbd_loss = []
     gt_cpbd_loss = []
     if method== 'ours':
+        count = 0 
         for img_p in img_list:
             print ('+++')
+
             print (img_p)
             result = cv2.imread(img_p)
             print (result.shape)
@@ -54,6 +56,8 @@ def calculate(method = 'ours'):
 
             rec_img = result[:,width : width * 2, :]
             gt_img = result[:,:width,:]
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/ours/fake/%d.png'%count, rec_img)
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/ours/real/%d.png'%count, gt_img)
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
@@ -70,6 +74,9 @@ def calculate(method = 'ours'):
 
             rec_img = result[:,width : width * 2, :]
             gt_img = result[:,:width,:]
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/fake/%d.png'%count, rec_img)
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/real/%d.png'%count, gt_img)
+
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
@@ -86,6 +93,9 @@ def calculate(method = 'ours'):
 
             rec_img = result[:,width : width * 2, :]
             gt_img = result[:,:width,:]
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/fake/%d.png'%count, rec_img)
+            cv2.imwrite('/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real/%d.png'%count, gt_img)
+
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
@@ -111,5 +121,6 @@ def calculate(method = 'ours'):
 
 
 
-
+calculate(method = 'ours')
+calculate(method = 'MGCNet')
 calculate(method = 'deep3dR')
