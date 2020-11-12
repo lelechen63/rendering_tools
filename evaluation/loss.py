@@ -15,7 +15,6 @@ loss_fn_alex = lpips.LPIPS(net='alex')
 
 
 def lpips_dis( x, y):
-    print ('++++')
     # x, y size : ( N,N,3), cv2 readed image, value range (0,255)
     # change it to pytorch tensor, need to be normalized to [-1,1]
     x = torch.tensor( x, dtype=torch.float32)
@@ -29,7 +28,8 @@ def lpips_dis( x, y):
     y = y.permute(2,0,1).unsqueeze(0)
 
     d = loss_fn_alex(x, y)
-    return d
+    print (d.shape)
+    return d.detach().numpy()
 
 def l2_dis(x, y):
     mse = np.mean( (x - y) ** 2 )
@@ -41,22 +41,6 @@ def ssim_dis(x, y):
 
     d = compare_ssim( x, y, multichannel = True )
     return d
-
-
-def psnr_f(img1, img2):
-    mse = np.mean( (img1 - img2) ** 2 )
-    if mse == 0:
-        return 100
-    PIXEL_MAX = 255.0
-    return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
-
-def psnr_dis(x, y):
-    # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
-    gray_x = cv2.cvtColor(x, cv2.COLOR_BGR2GRAY)
-    gray_y = cv2.cvtColor(y, cv2.COLOR_BGR2GRAY)
-    d = psnr_f(gray_x, gray_y)
-    return d
-
 
 
 def cpbd_dis(x):
