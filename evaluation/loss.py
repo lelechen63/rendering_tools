@@ -5,7 +5,6 @@ import numpy as np
 loss_fn_alex = lpips.LPIPS(net='alex').cuda() # best forward scores
 ssim_loss = pytorch_ssim.SSIM(window_size = 11)
 
-
 def lpips_dis( x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
     # change it to pytorch tensor, need to be normalized to [-1,1]
