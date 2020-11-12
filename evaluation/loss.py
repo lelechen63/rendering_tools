@@ -19,20 +19,14 @@ def lpips_dis( x, y):
     # change it to pytorch tensor, need to be normalized to [-1,1]
     x = torch.tensor( x, dtype=torch.float32)
     y = torch.tensor( y, dtype=torch.float32)
-    print ('++++')
     x = (x/255.0 - 0.5) *2 
-    print ('++++')
     x = torch.clamp(x, min=-1, max=1)
-    print ('++++')
     x = x.permute(2,0,1).unsqueeze(0)
-    print ('++++')
 
     y = (y/255.0 - 0.5) *2 
     y = torch.clamp(y, min=-1, max=1)
-    print ('++++')
     y = y.permute(2,0,1).unsqueeze(0)
 
-    print ('!!!!!!')
     d = loss_fn_alex(x, y)
     return d
 
