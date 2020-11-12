@@ -22,7 +22,7 @@ def lpips_dis( x, y):
     return d
 
 def l2_dis(x, y):
-    mse = np.mean( (img1 - img2) ** 2 )
+    mse = np.mean( (x - y) ** 2 )
     return mse
 
 
