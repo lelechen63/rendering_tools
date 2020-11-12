@@ -6,6 +6,7 @@ import sys
 from scipy import signal
 from scipy import ndimage
 import cpbd
+import cv2
 from skimage.measure import compare_ssim
 
 loss_fn_alex = lpips.LPIPS(net='alex')
