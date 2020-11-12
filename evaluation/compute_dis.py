@@ -61,15 +61,15 @@ def calculate(method = 'ours'):
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
     print (l2_loss)
-    print ('l2:' sum(l2_loss)/len(l2_loss))
+    print ('l2:', sum(l2_loss)/len(l2_loss))
     print (ssim_loss)
-    print ('ssim_loss:' sum(ssim_loss)/len(ssim_loss))
+    print ('ssim_loss:' ,sum(ssim_loss)/len(ssim_loss))
     print (cpbd_loss)
-    print ('cpbd_loss:' sum(cpbd_loss)/len(cpbd_loss))
+    print ('cpbd_loss:' ,sum(cpbd_loss)/len(cpbd_loss))
     print (lpips_loss)
-    print ('lpips_loss:' sum(lpips_loss)/len(lpips_loss))
+    print ('lpips_loss:' ,sum(lpips_loss)/len(lpips_loss))
     print (gt_cpbd_loss)
-    print ('gt_cpbd_loss:' sum(gt_cpbd_loss)/len(gt_cpbd_loss))
+    print ('gt_cpbd_loss:' ,sum(gt_cpbd_loss)/len(gt_cpbd_loss))
 
 
 
