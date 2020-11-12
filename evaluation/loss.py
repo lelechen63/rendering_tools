@@ -6,7 +6,7 @@ import sys
 from scipy import signal
 from scipy import ndimage
 
-from skimage.metrics import structural_similarity as ssim
+from skimage.measure import compare_ssim
 
 loss_fn_alex = lpips.LPIPS(net='alex')
 
@@ -37,7 +37,7 @@ def l2_dis(x, y):
 def ssim_dis(x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
 
-    d = ssim( x, y , 255)
+    d = compare_ssim( x, y )
     return d
 
 
