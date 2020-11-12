@@ -10,8 +10,8 @@ def ssim(img1, img2, cs_map=False):
     """Return the Structural Similarity Map corresponding to input images img1 
     and img2 (images are assumed to be uint8)
     """
-    img1 = img1.astype(numpy.float64)
-    img2 = img2.astype(numpy.float64)
+    img1 = img1.astype(np.float64)
+    img2 = img2.astype(np.float64)
     size = 11
     sigma = 1.5
     window = gauss.fspecial_gauss(size, sigma)
