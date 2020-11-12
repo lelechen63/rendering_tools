@@ -24,6 +24,7 @@ def lpips_dis( x, y):
     y = (y/255.0 - 0.5) *2 
     y = torch.clamp(y, min=-1, max=1)
     y = y.unsequeeze(0)
+    print ('!!!!!!')
     d = loss_fn_alex(x, y)
     return d
 
