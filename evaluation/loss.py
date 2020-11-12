@@ -27,9 +27,8 @@ def lpips_dis( x, y):
     y = torch.clamp(y, min=-1, max=1)
     y = y.permute(2,0,1).unsqueeze(0)
 
-    d = loss_fn_alex(x, y)
-    print (d.shape)
-    return d.detach().numpy()
+    d = loss_fn_alex(x, y).view(-1)
+    return d.detach().numpy()[0]
 
 def l2_dis(x, y):
     mse = np.mean( (x - y) ** 2 )

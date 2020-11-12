@@ -57,18 +57,21 @@ def calculate(method = 'ours'):
             gt_img = result[:,:width,:]
             l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
             ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
-            print (ssim_loss[-1])
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
-            print (lpips_loss[-1])
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
-            print (cpbd_loss[-1])
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
-            print (gt_cpbd_loss[-1])
     print (l2_loss)
+    print ('l2:' sum(l2_loss)/len(l2_loss))
     print (ssim_loss)
+    print ('l2:' sum(ssim_loss)/len(ssim_loss))
     print (cpbd_loss)
+    print ('l2:' sum(cpbd_loss)/len(cpbd_loss))
     print (lpips_loss)
+    print ('l2:' sum(lpips_loss)/len(lpips_loss))
     print (gt_cpbd_loss)
+    print ('l2:' sum(gt_cpbd_loss)/len(gt_cpbd_loss))
+
+
 
 
 
