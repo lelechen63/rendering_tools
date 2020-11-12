@@ -2,7 +2,7 @@ import lpips
 import torch
 import pytorch_ssim
 import numpy as np
-from lpips_pytorch import LPIPS, lpips
+import lpips
 
 ssim_loss = pytorch_ssim.SSIM(window_size = 11)
 loss_fn_alex = lpips.LPIPS(net='alex')
