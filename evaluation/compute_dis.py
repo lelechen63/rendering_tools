@@ -124,5 +124,5 @@ def calculate(method = 'ours'):
 #python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/real --path2 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/MGCNet/real --batch-size 8
 
 # calculate(method = 'ours')
-calculate(method = 'MGCNet')
-# calculate(method = 'deep3dR')
+# calculate(method = 'MGCNet')
+calculate(method = 'deep3dR')
