@@ -46,6 +46,8 @@ def calculate(method = 'ours'):
     gt_cpbd_loss = []
     if method== 'ours':
         for img_p in img_list:
+            print ('+++')
+            print (img_p)
             result = cv2.imread(img_p)
             print (result.shape)
             high = result.shape[0]
