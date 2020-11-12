@@ -37,7 +37,7 @@ def get_list(method = 'deep3dR'):
 
 def calculate(method = 'ours'):
     
-    img_list = get_txt(method)
+    img_list = get_list(method)
 
     l2_loss = []
     ssim_loss = []
