@@ -63,7 +63,9 @@ def calculate(method = 'ours'):
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
+            count+= 1
     elif method== 'MGCNet':
+        count = 0 
         for img_p in img_list:
             print ('+++')
             print (img_p)
@@ -82,8 +84,10 @@ def calculate(method = 'ours'):
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
+            count+= 1
 
     elif method== 'deep3dR':
+        count = 0 
         for img_p in img_list:
             print (img_p)
             result = cv2.imread(img_p)
@@ -101,6 +105,7 @@ def calculate(method = 'ours'):
             lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
+            count+= 1
 
     print (l2_loss)
     print ('====================')
