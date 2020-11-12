@@ -76,6 +76,22 @@ def calculate(method = 'ours'):
             cpbd_loss.append( loss.cpbd_dis(rec_img )  )
             gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
 
+    elif method== 'deep3dR':
+        for img_p in img_list:
+            print (img_p)
+            result = cv2.imread(img_p)
+            print (result.shape)
+            high = result.shape[0]
+            width = int(result.shape[1] /2)
+
+            rec_img = result[:,width : width * 2, :]
+            gt_img = result[:,:width,:]
+            l2_loss.append( loss.l2_dis(  rec_img , gt_img) )
+            ssim_loss.append(loss.ssim_dis(  rec_img, gt_img ))
+            lpips_loss.append(loss.lpips_dis(rec_img, gt_img))
+            cpbd_loss.append( loss.cpbd_dis(rec_img )  )
+            gt_cpbd_loss.append( loss.cpbd_dis(gt_img)  )
+
     print (l2_loss)
     print ('====================')
     print ('l2:', sum(l2_loss)/len(l2_loss))
