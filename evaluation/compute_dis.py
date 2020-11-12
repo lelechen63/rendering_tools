@@ -19,7 +19,7 @@ def get_list(method = 'deep3dR'):
                 if file.endswith(".png"):
                     img_path = os.path.join(root, file)
                     if 'mgcnet' in img_path:
-                        if '_mulPoses' not in img_path:
+                        if '_mulPoses' in img_path:
                             print (img_path)
                             img_list.append(img_path)
     elif method =='ours':
@@ -28,9 +28,8 @@ def get_list(method = 'deep3dR'):
                 if file.endswith(".png"):
                     img_path = os.path.join(root, file)
                     if 'ours' in img_path and 'ours_render' not in img_path:
-                        if '_mulPoses' not in img_path:
-                            print (img_path)
-                            img_list.append(img_path)
+                        print (img_path)
+                        img_list.append(img_path)
 
 
     return img_list
