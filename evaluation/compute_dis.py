@@ -63,13 +63,13 @@ def calculate(method = 'ours'):
     print (l2_loss)
     print ('l2:' sum(l2_loss)/len(l2_loss))
     print (ssim_loss)
-    print ('l2:' sum(ssim_loss)/len(ssim_loss))
+    print ('ssim_loss:' sum(ssim_loss)/len(ssim_loss))
     print (cpbd_loss)
-    print ('l2:' sum(cpbd_loss)/len(cpbd_loss))
+    print ('cpbd_loss:' sum(cpbd_loss)/len(cpbd_loss))
     print (lpips_loss)
-    print ('l2:' sum(lpips_loss)/len(lpips_loss))
+    print ('lpips_loss:' sum(lpips_loss)/len(lpips_loss))
     print (gt_cpbd_loss)
-    print ('l2:' sum(gt_cpbd_loss)/len(gt_cpbd_loss))
+    print ('gt_cpbd_loss:' sum(gt_cpbd_loss)/len(gt_cpbd_loss))
 
 
 
