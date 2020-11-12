@@ -37,7 +37,7 @@ def l2_dis(x, y):
 def ssim_dis(x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
 
-    d = compare_ssim( x, y )
+    d = compare_ssim( x, y, multichannel = True, 255 )
     return d
 
 
