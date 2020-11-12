@@ -2,9 +2,16 @@ import lpips
 import torch
 import pytorch_ssim
 import numpy as np
-loss_fn_alex = lpips.LPIPS(net='alex').cuda() # best forward scores
-ssim_loss = pytorch_ssim.SSIM(window_size = 11)
+from lpips_pytorch import LPIPS, lpips
 
+ssim_loss = pytorch_ssim.SSIM(window_size = 11)
+loss_fn_alex = lpips.LPIPS(net='alex')
+
+# criterion = LPIPS(
+#     net_type='alex',  # choose a network type from ['alex', 'squeeze', 'vgg']
+#     version='0.1',  # Currently, v0.1 is supported
+
+# )
 def lpips_dis( x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
     # change it to pytorch tensor, need to be normalized to [-1,1]
