@@ -112,4 +112,4 @@ def calculate(method = 'ours'):
 
 
 
-calculate(method = 'MGCNet')
+calculate(method = 'deep3dR')
