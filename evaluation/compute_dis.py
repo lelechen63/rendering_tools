@@ -75,4 +75,4 @@ def calculate(method = 'ours'):
 
 
 
-calculate(method = 'ours')
+calculate(method = 'MGCNet')
