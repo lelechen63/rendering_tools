@@ -2,15 +2,15 @@ import lpips
 import torch
 import pytorch_ssim
 import numpy as np
-loss_fn_alex = lpips.LPIPS(net='alex') # best forward scores
+loss_fn_alex = lpips.LPIPS(net='alex').cuda() # best forward scores
 ssim_loss = pytorch_ssim.SSIM(window_size = 11)
 
 
 def lpips_dis( x, y):
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
     # change it to pytorch tensor, need to be normalized to [-1,1]
-    x = torch.tensor( x, dtype=torch.float32)
-    y = torch.tensor( y, dtype=torch.float32)
+    x = torch.tensor( x, dtype=torch.float32).cuda()
+    y = torch.tensor( y, dtype=torch.float32).cuda()
     x = (x/255.0 - 0.5) *2 
     x = torch.clamp(x, min=-1, max=1)
     x = x.unsequeeze(0)
