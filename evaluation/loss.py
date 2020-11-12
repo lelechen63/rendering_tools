@@ -1,7 +1,7 @@
 import lpips
 import torch
 import pytorch_ssim
-
+import numpy as np
 loss_fn_alex = lpips.LPIPS(net='alex') # best forward scores
 ssim_loss = pytorch_ssim.SSIM(window_size = 11)
 
