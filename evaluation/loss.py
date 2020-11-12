@@ -14,6 +14,7 @@ loss_fn_alex = lpips.LPIPS(net='alex')
 
 
 def lpips_dis( x, y):
+    print ('++++')
     # x, y size : ( 3, N,N), cv2 readed image, value range (0,255)
     # change it to pytorch tensor, need to be normalized to [-1,1]
     x = torch.tensor( x, dtype=torch.float32).cuda()
