@@ -59,6 +59,8 @@ def psnr_dis(x, y):
 
 
 def cpbd_dis(x):
-    # xsize : ( 3, N,N), cv2 readed image, value range (0,255)
-    d =  cpbd.compute(x)
+    # xsize : (  N,N, 3), cv2 readed image, value range (0,255)
+    input_image1 = cv2.cvtColor(x, cv2.COLOR_BGR2GRAY)
+
+    d =  cpbd.compute(input_image1)
     return d
