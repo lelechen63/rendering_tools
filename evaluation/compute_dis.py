@@ -124,6 +124,8 @@ def calculate(method = 'ours'):
     print ('gt_cpbd_loss:' ,sum(gt_cpbd_loss)/len(gt_cpbd_loss))
 
 
+# compute fid     
+#python fid.py --path1 /u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --path2/u/lchen63/cvpr2021/cvpr2021/rendering_tools/evaluation/fid_folder/deep3dR/real --batch-size 8
 
 
 calculate(method = 'ours')
