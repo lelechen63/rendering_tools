@@ -7,14 +7,14 @@ conda activate base
 conda activate pytorch1.1python3
 echo -e "${RED}${ALG_NAME}, using ${CONDA_DEFAULT_ENV}${NC}"
 cd /u/lchen63/cvpr2021/cvpr2021/rendering_tools
-python deep3dfaceR_render.py --conf ../chen_facestar.json
-python deep3dfaceR_render.py --conf ../dani_iphone.json
-python deep3dfaceR_render.py --conf ../gir1_iphone.json
+# python deep3dfaceR_render.py --conf ../chen_facestar.json
+# python deep3dfaceR_render.py --conf ../dani_iphone.json
+# python deep3dfaceR_render.py --conf ../gir1_iphone.json
 python deep3dfaceR_render.py --conf ../Israel_iphone.json
-python deep3dfaceR_render.py --conf ../jason_facestar.json
-python deep3dfaceR_render.py --conf ../kevyn_iphone.json
-python deep3dfaceR_render.py --conf ../shugao_facestar.json
-python deep3dfaceR_render.py --conf ../steve_iphone.json
+# python deep3dfaceR_render.py --conf ../jason_facestar.json
+# python deep3dfaceR_render.py --conf ../kevyn_iphone.json
+# python deep3dfaceR_render.py --conf ../shugao_facestar.json
+# python deep3dfaceR_render.py --conf ../steve_iphone.json
 
 
 
